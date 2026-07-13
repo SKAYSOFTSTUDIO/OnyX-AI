@@ -78,8 +78,8 @@
     transition: all 0.2s ease;
     user-select: none;
   }
-  .icon-btn:hover { 
-    background: rgba(255,255,255,0.06); 
+  .icon-btn:hover {
+    background: rgba(255,255,255,0.06);
     border-color: rgba(255,255,255,0.3);
     transform: scale(1.05);
   }
@@ -99,7 +99,7 @@
     gap: 8px;    transition: all 0.2s ease;
     user-select: none;
   }
-  .new-chat:hover { 
+  .new-chat:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255,255,255,0.2);
   }
@@ -126,12 +126,12 @@
     transition: all 0.2s ease;
     user-select: none;
   }
-  .chat-item:hover { 
+  .chat-item:hover {
     background: rgba(255,255,255,0.05);
     transform: translateX(4px);
   }
-  .chat-item.active { 
-    background: rgba(255,255,255,0.1); 
+  .chat-item.active {
+    background: rgba(255,255,255,0.1);
     color: #fff;
   }
   .chat-item .title {
@@ -152,7 +152,7 @@
     user-select: none;
   }
   .chat-item:hover .del { opacity: 1; }
-  .chat-item .del:hover { 
+  .chat-item .del:hover {
     color: #ff3b3b;
     background: rgba(255,59,59,0.1);
   }
@@ -183,6 +183,7 @@
     background: rgba(255,255,255,0.1);
     color: #fff;
   }
+  .settings-btn:active { transform: scale(0.97); }
   .overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.7);
@@ -193,8 +194,8 @@
     backdrop-filter: blur(4px);
   }
   .overlay.show { opacity: 1; pointer-events: auto; }
-
-  .app {    flex: 1;
+  .app {
+    flex: 1;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -242,8 +243,8 @@
     -webkit-overflow-scrolling: touch;
   }
   main::-webkit-scrollbar { width: 8px; }
-  main::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
-  main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }  .chat {
+  main::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }  main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  .chat {
     max-width: 780px;
     margin: 0 auto;
     display: flex;
@@ -257,7 +258,6 @@
     font-size: 14.5px;
     max-width: 92%;
     word-wrap: break-word;
-    position: relative;
     animation: msgIn 0.4s ease;
     white-space: pre-wrap;
   }
@@ -543,12 +543,12 @@
     font-weight: 600;
     cursor: pointer;
     margin-top: 8px;
-    transition: all 0.2s;
   }
   .modal-button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255,255,255,0.2);
   }
+  .modal-button:active { transform: scale(0.97); }
   .modal-close {
     position: absolute;
     top: 12px;
@@ -620,30 +620,30 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-title">История</div>
-    <button class="icon-btn" id="closeSidebar" aria-label="Закрыть"></button>
+    <button class="icon-btn" id="closeSidebar" type="button">✕</button>
   </div>
-  <button class="new-chat" id="newChat">
+  <button class="new-chat" id="newChat" type="button">
     <span>＋</span> Новый чат
   </button>
   <div class="chat-list" id="chatList"></div>
-  <button class="settings-btn" id="settingsBtn"> Настройки</button>
+  <button class="settings-btn" id="settingsBtn" type="button">⚙ Настройки</button>
   <div class="sidebar-footer">
     <div>OnyX 3.1 · живой собеседник</div>
     <div style="margin-top: 8px; font-size: 10px;">Создатель SKAYSOFT ™</div>
-    <div style="font-size: 9px; margin-top: 4px;">Защищёно авторским правом команды SKAYSOFT ™ 2026</div>
+    <div style="font-size: 9px; margin-top: 4px;">Защищено авторским правом команды SKAYSOFT ™ 2026</div>
   </div>
 </aside>
 <div class="overlay" id="overlay"></div>
 
 <div class="app" id="app">  <header>
     <div style="display:flex; align-items:center; gap:12px;">
-      <button class="icon-btn" id="openSidebar" aria-label="Меню"></button>
+      <button class="icon-btn" id="openSidebar" type="button">☰</button>
       <div class="logo">
         <div class="logo-dot"></div>
         <span>OnyX</span>
       </div>
     </div>
-    <div class="version">v 3.1</div>
+    <div class="version" id="versionBadge">v 3.1</div>
   </header>
 
   <main id="main">
@@ -654,40 +654,44 @@
     <div class="hint" id="limitHint">OnyX 3.1 · думаю как человек</div>
     <div class="input-row">
       <textarea id="input" rows="1" placeholder="Напиши что-нибудь..."></textarea>
-      <button class="send" id="send" aria-label="Отправить">➤</button>
+      <button class="send" id="send" type="button">➤</button>
     </div>
   </footer>
 </div>
 
 <div class="modal" id="settingsModal">
   <div class="modal-content">
-    <button class="modal-close" id="closeModal">✕</button>
+    <button class="modal-close" id="closeModal" type="button">✕</button>
     <div class="modal-header">⚙ Настройки</div>
-    
+
     <div class="label" style="color:#888; font-size:11px; margin-bottom:6px;">Код активации</div>
     <input type="text" class="modal-input" id="activationCode" placeholder="Введите код активации" autocomplete="off">
-    <button class="modal-button" id="activateBtn">Активировать</button>
-    
+    <button class="modal-button" id="activateBtn" type="button">Активировать</button>
+
     <div class="subscription-info">
       <div class="label">Статус подписки</div>
       <div class="value" id="subscriptionStatus" style="color:#ffcc00;">Ограниченная версия</div>
-      
+
       <div class="label">Осталось запросов сегодня</div>
       <div class="value" id="requestsLeft">10 / 10</div>
-      
+
       <div class="label" id="expiryLabel" style="display:none;">Действует до</div>
       <div class="value" id="expiryDate" style="display:none;">—</div>
     </div>
-    
+
     <div class="creator-info">
       <strong>Создатель SKAYSOFT ™</strong>
     </div>
     <div class="copyright">
-      Защищёно авторским правом команды<br>SKAYSOFT ™ 2026
+      Защищено авторским правом команды<br>SKAYSOFT ™ 2026
     </div>  </div>
 </div>
 
 <script>
+(function() {
+'use strict';
+
+/* ========== ЭЛЕМЕНТЫ ========== */
 const chatEl = document.getElementById('chat');
 const input = document.getElementById('input');
 const sendBtn = document.getElementById('send');
@@ -695,486 +699,30 @@ const mainEl = document.getElementById('main');
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const chatListEl = document.getElementById('chatList');
-const app = document.getElementById('app');
+const appEl = document.getElementById('app');
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsModal = document.getElementById('settingsModal');
+const closeModalBtn = document.getElementById('closeModal');
+const openSidebarBtn = document.getElementById('openSidebar');
+const closeSidebarBtn = document.getElementById('closeSidebar');
+const newChatBtn = document.getElementById('newChat');
+const activationCodeInput = document.getElementById('activationCode');
+const activateBtn = document.getElementById('activateBtn');
+const subscriptionStatus = document.getElementById('subscriptionStatus');
+const requestsLeftEl = document.getElementById('requestsLeft');
+const expiryLabel = document.getElementById('expiryLabel');
+const expiryDateEl = document.getElementById('expiryDate');
 const limitHint = document.getElementById('limitHint');
+const versionBadge = document.getElementById('versionBadge');
 
-// ========== ВСЕ 10000 КОДОВ АКТИВАЦИИ ==========
-const VALID_CODES = {
-// PERMANENT (1000 кодов)
-'PERM-6ICQNO-JSPYBU': 'permanent',
-'PERM-F00VS0-DOOC26': 'permanent',
-'PERM-LT3KTO-CBY6CU': 'permanent',
-'PERM-09B45Y-63SNKX': 'permanent',
-'PERM-JWGUCH-D96TBG': 'permanent',
-'PERM-5LUNTX-YP1MUR': 'permanent',
-'PERM-LMWK6P-DS62T8': 'permanent',
-'PERM-YR4PBN-FN7A0W': 'permanent',
-'PERM-ZTVEXN-GMSZ3T': 'permanent',
-'PERM-FGZ5QN-9OHEHZ': 'permanent',
-'PERM-3EQOO7-IME4E7': 'permanent',
-'PERM-5TUY07-UFS45D': 'permanent',
-'PERM-4N1019-YKKSND': 'permanent',
-'PERM-8DTO4C-F66RNC': 'permanent',
-'PERM-DMTH76-9F9IF8': 'permanent',
-'PERM-QGPBRM-KJTRLL': 'permanent',
-'PERM-6LO6QD-09T07E': 'permanent',
-'PERM-IC8RYK-WKLP58': 'permanent',
-'PERM-AISY3B-I94PJ3': 'permanent',
-'PERM-T4RWPE-JR6M08': 'permanent',
-'PERM-7CFYMS-O282S5': 'permanent',
-'PERM-OWMY2V-JXJRK0': 'permanent',
-'PERM-IXDFNI-OSY8HT': 'permanent',
-'PERM-6EHE3M-5WVPQY': 'permanent',
-'PERM-O0BV6G-VXR83T': 'permanent',
-'PERM-S2031C-D8WKSP': 'permanent',
-'PERM-6F8UNQ-5J7HH3': 'permanent',
-'PERM-8KNYQC-RQJPGU': 'permanent',
-'PERM-587867-3AX9WI': 'permanent',
-'PERM-ZRW7D7-YF4K93': 'permanent',
-'PERM-JJY0O1-XZL17X': 'permanent',
-'PERM-QUM4NA-VEQJ0K': 'permanent',
-'PERM-H5DANY-6DEY6J': 'permanent','PERM-F9CNCW-UHLFNZ': 'permanent',
-'PERM-OXAHYF-L75GVE': 'permanent',
-'PERM-W62FZ1-235FEF': 'permanent',
-'PERM-Y5M2F0-91VO9X': 'permanent',
-'PERM-OFB84Z-F4X2IZ': 'permanent',
-'PERM-T1I393-BGU56W': 'permanent',
-'PERM-W80NNL-TC9ZU7': 'permanent',
-// YEAR (5000 кодов)
-'YEAR-TN1B42-KAWEHK': 'year',
-'YEAR-81C519-W4PSNP': 'year',
-'YEAR-VU4R92-WV9LZ1': 'year',
-'YEAR-1WVVA9-HZPRIG': 'year',
-'YEAR-DNKXKL-M93RG4': 'year',
-'YEAR-FYMU7U-NVMYLL': 'year',
-'YEAR-23K914-XU86MQ': 'year',
-'YEAR-02SIB1-6CQQC4': 'year',
-'YEAR-6G8B98-I65PAU': 'year',
-'YEAR-QGTVAP-0IM0CJ': 'year',
-'YEAR-5VXEJY-VNP1VJ': 'year',
-'YEAR-0Y3JQM-I3HD1O': 'year',
-'YEAR-4PN88R-TZRJXN': 'year',
-'YEAR-K16DSC-T0MIRL': 'year',
-'YEAR-0H4ZZY-TY8FK6': 'year',
-'YEAR-MXRMB4-8V2M3Z': 'year',
-'YEAR-4CO541-41SK23': 'year',
-'YEAR-WJ69YI-PPIIOW': 'year',
-'YEAR-M2I2VR-FFB2Y9': 'year',
-'YEAR-XUOFYA-C6BW4O': 'year',
-'YEAR-GBEAMK-SAG25W': 'year',
-'YEAR-VKF1TG-NUCJLX': 'year',
-'YEAR-08T79R-RH2S2Y': 'year',
-'YEAR-MLZKGD-3LQLW5': 'year',
-'YEAR-E9H7DV-DKNXBC': 'year',
-'YEAR-XT6QLR-WMWXHJ': 'year',
-'YEAR-AISXD8-XKW0KK': 'year',
-'YEAR-CWMY0O-5NP6SO': 'year',
-'YEAR-5ZQ6UK-DC7K93': 'year',
-'YEAR-CE083C-7QDEFY': 'year',
-'YEAR-6VXX9D-66F4OB': 'year',
-'YEAR-VQMEP5-OU3QXN': 'year',
-'YEAR-F0W0I6-8TY59V': 'year',
-'YEAR-UEJMF9-VKOUAD': 'year',
-'YEAR-RA4PGN-ZW2CIO': 'year',
-'YEAR-GTSUO2-ZMOITU': 'year',
-'YEAR-53A7C5-J4YEQO': 'year',
-// MONTH (4000 кодов)
-'MONTH-2FNHCP-MJNFZG': 'month',
-'MONTH-UN53BZ-CCE8B3': 'month',
-'MONTH-XG7SIW-FJ2N7W': 'month',
-'MONTH-M4F4IZ-IDPDQ2': 'month','MONTH-4Q9XUL-647AKE': 'month',
-'MONTH-K7S54C-SHD4JS': 'month',
-'MONTH-LZFGW0-KFM6IS': 'month',
-'MONTH-ES8PVU-TEOI3J': 'month',
-'MONTH-OCPQ9T-Q8R459': 'month',
-'MONTH-PLZH0Y-UN5HVW': 'month',
-'MONTH-HH771X-XXHA7K': 'month',
-'MONTH-V0QI22-VUPAC5': 'month',
-'MONTH-57ZNOZ-LMAJXY': 'month',
-'MONTH-7S5PZ2-AVXFQB': 'month',
-'MONTH-TACPGF-FNDGU1': 'month',
-'MONTH-NXZJ07-BIJ9YE': 'month',
-'MONTH-MZOQNN-ER0Q84': 'month',
-'MONTH-V922QH-8H73NP': 'month',
-'MONTH-JQ7KO5-OOAIRL': 'month',
-'MONTH-Y10EEA-DV3JIR': 'month',
-'MONTH-UQ6J0P-PQRDF8': 'month',
-'MONTH-0CZIGR-SXZYLZ': 'month',
-'MONTH-TU114T-HCDLKE': 'month',
-'MONTH-QQK46L-VV55L4': 'month',
-'MONTH-7JKV79-L5Y77K': 'month',
-'MONTH-XN9NXT-EPFFGO': 'month',
-'MONTH-ZLQZWK-KD77JQ': 'month',
-'MONTH-CYF07U-V9GVY2': 'month',
-'MONTH-UL4SUD-CFI77G': 'month',
-'MONTH-DD8978-0QS258': 'month',
-'MONTH-QZMBTC-V77DSK': 'month',
-'MONTH-ZYBYJE-E06APQ': 'month',
-'MONTH-7MJLCN-A3UQYD': 'month',
-'MONTH-KPD4TZ-RAAXK2': 'month',
-'MONTH-4M1DBE-SEA8F0': 'month',
-'MONTH-7MPN2I-KDTVJC': 'month',
-'MONTH-8F6Y0A-CS6Q07': 'month',
-'MONTH-0O9KAW-KHRCU1': 'month',
-'MONTH-4GRGWN-N4QNH1': 'month',
-'MONTH-8Q8KVO-RTMSDP': 'month',
-'MONTH-WKQVK8-SO09NN': 'month',
-'MONTH-BXTBEQ-HQVM1Y': 'month',
-'MONTH-9KGNOI-VE8SBS': 'month',
-'MONTH-2ESLMH-UIKPN6': 'month',
-'MONTH-4YCGD3-4A98R1': 'month',
-'MONTH-229FL2-MZS3XA': 'month',
-'MONTH-DUF5N8-EYZMF0': 'month',
-'MONTH-G9PIOK-61NDBN': 'month',
-'MONTH-OETMT3-Z37EKJ': 'month',
-'MONTH-2NTZ7L-Z9ZJ37': 'month',
-'MONTH-EH4UUU-2IKQBW': 'month',
-'MONTH-PY3E04-FPKOGX': 'month',
-'MONTH-I79Y9Z-BLJRAI': 'month',
-'MONTH-9U1B7J-CV6DBI': 'month','MONTH-8FDISI-195KKJ': 'month',
-'MONTH-AQWI1N-VI6GY1': 'month',
-'MONTH-O1W5QD-LAN3ZJ': 'month',
-'MONTH-K00I6V-BEWSKM': 'month',
-'MONTH-LOOLZF-D4U1R7': 'month',
-'MONTH-9LZO8W-LKL14B': 'month',
-'MONTH-13559I-W6M5WG': 'month',
-'MONTH-HB1B1V-R6DAAK': 'month',
-'MONTH-E0WXX7-PZOC49': 'month',
-'MONTH-CSCPOZ-JEHSD4': 'month',
-'MONTH-VSEU23-6ZV5FV': 'month',
-'MONTH-UHAOO5-2VYBVA': 'month',
-'MONTH-9QZ9O4-E2N5EZ': 'month',
-'MONTH-LFFFPL-IVVOHH': 'month',
-'MONTH-IOD4WA-MVOA2D': 'month',
-'MONTH-RE44YH-5GT52O': 'month',
-'MONTH-B0TE7T-4BUO0O': 'month',
-'MONTH-1T1VQP-D6L97M': 'month',
-'MONTH-WE2AAT-Q9DGMA': 'month',
-'MONTH-1VLAJL-NVHO57': 'month',
-'MONTH-8DAS56-548LH0': 'month',
-'MONTH-32JRGZ-VNT6I7': 'month',
-'MONTH-BVJ7KV-PL9T05': 'month',
-'MONTH-58RFVM-4KIFXY': 'month',
-'MONTH-Q5FXZE-4DBH90': 'month',
-'MONTH-JL3M2Y-8RTNV1': 'month',
-'MONTH-QUREXL-4JGALL': 'month',
-'MONTH-PENANE-DZV38Z': 'month',
-'MONTH-AHC8HQ-IB0B9I': 'month',
-'MONTH-X4GKAJ-XK1CB8': 'month',
-'MONTH-2FT2PM-OCCK3O': 'month',
-'MONTH-CY1RSC-D9O7ZO': 'month',
-'MONTH-1TTO9E-34XANO': 'month',
-'MONTH-1L8TA0-DJ5OL2': 'month',
-'MONTH-ONELDQ-85713E': 'month',
-'MONTH-E4F0DY-LEW7XB': 'month',
-'MONTH-923A8X-3VKN4L': 'month',
-'MONTH-RO8GUB-NQZRKH': 'month',
-'MONTH-YK5DS6-WCRSG5': 'month',
-'MONTH-S3ZK0Q-Q0KX5A': 'month',
-'MONTH-XRRQQ4-GVFQ21': 'month',
-'MONTH-4B3NDV-W75H47': 'month',
-'MONTH-8T7ORU-GPKJI7': 'month',
-'MONTH-CQAEHC-0BBDNZ': 'month',
-'MONTH-O5H950-4VVERT': 'month',
-'MONTH-KIP8T9-QPR1CZ': 'month',
-'MONTH-JQHKYR-FGQ5GH': 'month',
-'MONTH-J5EEFT-337PEL': 'month',
-'MONTH-9SG48M-5BBXW4': 'month',
-'MONTH-PA1RZH-GFZT40': 'month','MONTH-EUQH98-LHW41H': 'month',
-'MONTH-EVXUFW-TVHYW9': 'month',
-'MONTH-DF7GWP-NIY014': 'month',
-'MONTH-6HX624-911TAH': 'month',
-'MONTH-75EQ4W-QO0M0V': 'month',
-'MONTH-0Q3BU2-EUHN20': 'month',
-'MONTH-JWWBAJ-2NU634': 'month',
-'MONTH-SRB3EN-552TTA': 'month',
-'MONTH-1U460A-A543TK': 'month',
-'MONTH-OIQ57S-LT3JN2': 'month',
-'MONTH-KA3Z5M-3IA38F': 'month',
-'MONTH-SS91KJ-LTP6AP': 'month',
-'MONTH-XH6OFG-AGHLE5': 'month',
-'MONTH-QQH279-YQLDXK': 'month',
-'MONTH-JN1787-S8A1GP': 'month',
-'MONTH-WCY649-EPLEKW': 'month',
-'MONTH-HT4IJY-G6H4JN': 'month',
-'MONTH-2IT2AW-CBH9H1': 'month',
-'MONTH-7LYLOZ-SQY87B': 'month',
-'MONTH-65T5QN-J7INQQ': 'month',
-'MONTH-AK5PBO-2YMRXL': 'month',
-'MONTH-ECAFYC-XPOE6U': 'month',
-'MONTH-8SZKFF-FLCCEM': 'month',
-'MONTH-LPW3T0-VS12ZC': 'month',
-'MONTH-ALV8SG-UKMOC1': 'month',
-'MONTH-R9BW2M-U5HRI9': 'month',
-'MONTH-11SCUI-V5321R': 'month',
-'MONTH-2HT301-HUKOBW': 'month',
-'MONTH-NLL80J-PPGF9M': 'month',
-'MONTH-08T6NY-9A1QP1': 'month',
-'MONTH-9YID8M-83HFPV': 'month',
-'MONTH-DUEP5E-1KJ7M3': 'month',
-'MONTH-0SYG1Q-6PPE1S': 'month',
-'MONTH-BVNUTG-32VEH7': 'month',
-'MONTH-P5LPCP-HODW9F': 'month',
-'MONTH-LN1LSB-G7ZMB9': 'month',
-'MONTH-BJOCHZ-HCDFZH': 'month',
-'MONTH-0O2J7I-D5FU20': 'month',
-'MONTH-UKP9FD-U2FEW8': 'month',
-'MONTH-SD4OZ9-EID9NC': 'month',
-'MONTH-H6VRNS-RXB7J3': 'month',
-'MONTH-UKORC5-8YCJFA': 'month',
-'MONTH-MLVTBU-SEGJFS': 'month',
-'MONTH-DIQAQ3-FORPIP': 'month',
-'MONTH-JXVK8P-11EX33': 'month',
-'MONTH-JZQWP5-Z9DRL0': 'month',
-'MONTH-XX8ERS-RWVO9U': 'month',
-'MONTH-TUUZ58-CKYUKR': 'month',
-'MONTH-IVNE9E-WLQ3C3': 'month',
-'MONTH-YBNMQQ-FW8HDX': 'month','MONTH-GNSBPY-WZ1GYO': 'month',
-'MONTH-ZDNWGF-JC9KFZ': 'month',
-'MONTH-FDO756-P75JVJ': 'month',
-'MONTH-YKQGMK-N6UMNG': 'month',
-'MONTH-5QUFJH-YXCI71': 'month',
-'MONTH-U65WOM-NIIUJL': 'month',
-'MONTH-EI2VOL-0J9IM9': 'month',
-'MONTH-6VUDZ6-BF3B4S': 'month',
-'MONTH-9CB9VI-KQL2A7': 'month',
-'MONTH-INNRMJ-3E0OJF': 'month',
-'MONTH-D9F0O5-OXQ7SU': 'month',
-'MONTH-QFMN5L-0M3C3C': 'month',
-'MONTH-ZY79EZ-GLBN12': 'month',
-'MONTH-JMUPTZ-H7H2MQ': 'month',
-'MONTH-CJXFKU-TOL3TF': 'month',
-'MONTH-0W2JR3-29CEIR': 'month',
-'MONTH-XT6VEA-SR468Y': 'month',
-'MONTH-M2TD5L-RXQ9WN': 'month',
-'MONTH-931JM6-Y39DML': 'month',
-'MONTH-J78X1M-NRYHSD': 'month',
-'MONTH-H3ONOH-VA6350': 'month',
-'MONTH-Q0T6QW-2HCHN6': 'month',
-'MONTH-KGLP8T-HWN2W1': 'month',
-'MONTH-75BW50-OU6GY4': 'month',
-'MONTH-I1JIG8-VBNMPR': 'month',
-'MONTH-AIJX5G-AD0R0S': 'month',
-'MONTH-LZ1O7M-GPJI1K': 'month',
-'MONTH-LP15B1-EH570W': 'month',
-'MONTH-H9MGI8-AP22UD': 'month',
-'MONTH-X99XL8-3KVIAQ': 'month',
-'MONTH-QQXDG5-L7C6EN': 'month',
-'MONTH-JHWZVE-PFEXXO': 'month',
-'MONTH-8NVTUS-YUOLAL': 'month',
-'MONTH-963H7V-J8QRNH': 'month',
-'MONTH-DQIY8E-86PM5Z': 'month',
-'MONTH-CKJPE3-RQ7NTZ': 'month',
-'MONTH-CVNFX3-ZVET1W': 'month',
-'MONTH-RYAPAY-29UED5': 'month',
-'MONTH-DJMGDP-1I28A1': 'month',
-'MONTH-WSB91K-QSM4DN': 'month',
-'MONTH-3J4P05-EC6Z4Q': 'month',
-'MONTH-RASEOO-LWPQQO': 'month',
-'MONTH-S9FMDG-QZSYZ3': 'month',
-'MONTH-G3X0L2-R0AG18': 'month',
-'MONTH-LP9781-XFYGE9': 'month',
-'MONTH-ASX2AH-JJVIT5': 'month',
-'MONTH-DXRSVB-1BBVIW': 'month',
-'MONTH-FIEJH8-OEXH00': 'month',
-'MONTH-1LSRBJ-SAL8TV': 'month',
-'MONTH-D6NXI7-7343FP': 'month','MONTH-BD2B29-Z253ZI': 'month',
-'MONTH-LS1ZO6-FA7CAM': 'month',
-'MONTH-4E4WF2-1Y6HYO': 'month',
-'MONTH-HWNIG4-IKDUY4': 'month',
-'MONTH-6XBOEI-46GKYW': 'month',
-'MONTH-KAJCVI-XCIXJP': 'month',
-'MONTH-9JVM5D-UQJ2CK': 'month',
-'MONTH-9BB61T-0V37IP': 'month',
-'MONTH-6YYGXY-1T2HJD': 'month',
-'MONTH-ZTNZRQ-JONRCN': 'month',
-'MONTH-ZHZRKF-0XMQ11': 'month',
-'MONTH-7SD8CL-MRTP2N': 'month',
-'MONTH-ZWN889-NYAARX': 'month',
-'MONTH-EFDRUK-Q8X3TE': 'month',
-'MONTH-FRF170-AXYUYE': 'month',
-'MONTH-E6HMOW-IWL7QY': 'month',
-'MONTH-82AO4M-DQ7P3D': 'month',
-'MONTH-I35EA9-ZL51PI': 'month',
-'MONTH-1PUJX2-EAJOVE': 'month',
-'MONTH-GT9KDJ-NK9TNY': 'month',
-'MONTH-B3G27H-YF3QOA': 'month',
-'MONTH-2L37GK-SGIFUS': 'month',
-'MONTH-CMAXFX-G7F4VG': 'month',
-'MONTH-6552NL-7GTUUO': 'month',
-'MONTH-T9KYWF-SXTL1M': 'month',
-'MONTH-EXI3X0-IIDXUL': 'month',
-'MONTH-6DI5NN-1T41UM': 'month',
-'MONTH-CTU7LN-R7GKL7': 'month',
-'MONTH-3X1L4J-CUA2XD': 'month',
-'MONTH-BUM2S6-SNWZ71': 'month',
-'MONTH-XPKG78-V9AQK6': 'month',
-'MONTH-MORKGB-VGP84M': 'month',
-'MONTH-56I0SC-8L0OP3': 'month',
-'MONTH-X1FYRT-K6SZ9N': 'month',
-'MONTH-3MXA33-U8B45H': 'month',
-'MONTH-JV8PRX-S2WBYQ': 'month',
-'MONTH-C4CPPJ-V3BVQ1': 'month',
-'MONTH-3FO8TI-OPX75A': 'month',
-'MONTH-EL2BGO-BXAD0L': 'month',
-'MONTH-M47KDO-IVKY7R': 'month',
-'MONTH-46PD82-GWUP8P': 'month',
-'MONTH-R30W5J-IYY8QM': 'month',
-'MONTH-Z1OCKG-0USKI0': 'month',
-'MONTH-4Q0ZIE-2GTP8U': 'month',
-'MONTH-80O0SP-W1GNSV': 'month',
-'MONTH-CXN709-5VR4HB': 'month',
-'MONTH-EWQ6MD-VG54CY': 'month',
-'MONTH-1R4UTG-EAHE6F': 'month',
-'MONTH-4Q7I1L-3Z41GS': 'month',
-'MONTH-G8ZKSS-81G6YF': 'month','MONTH-UJGQWM-YO63F0': 'month',
-'MONTH-YDVYU2-EUE2TR': 'month',
-'MONTH-MZ2PHI-NJO6J5': 'month',
-'MONTH-7AM7OQ-ZYTMYQ': 'month',
-'MONTH-MLE0ZL-HH9PG5': 'month',
-'MONTH-KJ7MNY-W7CGIF': 'month',
-'MONTH-XQ306L-56RO4U': 'month',
-'MONTH-FYJ08X-BMPCTO': 'month',
-'MONTH-JFN20L-ATWTY6': 'month',
-'MONTH-LG77WL-H89L78': 'month',
-'MONTH-WH1L87-10RWAL': 'month',
-'MONTH-BVAYYN-3MA4ZT': 'month',
-'MONTH-TYPT0X-HH3JX3': 'month',
-'MONTH-KICSW3-IDUZR1': 'month',
-'MONTH-QFAHYW-6HYZBF': 'month',
-'MONTH-GSB8RH-VNZJBW': 'month',
-'MONTH-B8UKQW-M36H6C': 'month',
-'MONTH-0RLCAG-NNGJ94': 'month',
-'MONTH-G4GXPA-4B0MQ7': 'month',
-'MONTH-A2O79I-YKDOK8': 'month',
-'MONTH-XHTAQ0-3UF1AV': 'month',
-'MONTH-W86CB0-2EUESB': 'month',
-'MONTH-ESOCR9-CLOPRM': 'month',
-'MONTH-W5M4BF-MM4HKK': 'month',
-'MONTH-ZLO0AR-KC2EG5': 'month',
-'MONTH-QTMHTJ-O84HWS': 'month',
-'MONTH-IP17WS-CUB9H8': 'month',
-'MONTH-4J0VLO-OK5NYM': 'month',
-'MONTH-Z1H28W-D0SZMO': 'month',
-'MONTH-3WJ79J-8FCJID': 'month',
-'MONTH-VN2B5G-79WTCQ': 'month',
-'MONTH-IIJRCR-FE1YI4': 'month',
-'MONTH-526XH1-DW64KL': 'month',
-'MONTH-K1587E-0I1MNO': 'month',
-'MONTH-KORT2P-OOVGPT': 'month',
-'MONTH-2678IM-HZ6CKK': 'month',
-'MONTH-CUHXGN-JHDBCM': 'month',
-'MONTH-12E4RI-UZLC7V': 'month',
-'MONTH-NUYGAK-I7DXFA': 'month',
-'MONTH-93YCVV-7QB80T': 'month',
-'MONTH-U5PDJM-8EFBQH': 'month',
-'MONTH-VSDYOH-JUQ8B0': 'month',
-'MONTH-DEDR1V-5C2NN6': 'month',
-'MONTH-A7JI5J-WG3GSI': 'month',
-'MONTH-ME9BX0-WYSWSM': 'month',
-'MONTH-D6JP2Q-FO3DR6': 'month',
-'MONTH-ZP1U8I-ATNT8A': 'month',
-'MONTH-1EG49V-N7RSH7': 'month',
-'MONTH-GT2T12-KYTVEL': 'month',
-'MONTH-BEZR6C-A4501D': 'month','MONTH-DI45VH-F9FF1R': 'month',
-'MONTH-R5JDJB-RRSEQE': 'month',
-'MONTH-UXL7S7-1K5BVJ': 'month',
-'MONTH-3Y43BE-4RTTSX': 'month',
-'MONTH-OX90AR-QHBQZQ': 'month',
-'MONTH-SSZZ5Q-RIM4RE': 'month',
-'MONTH-SJ4CC4-9QJWV1': 'month',
-'MONTH-L0TP59-50YFVH': 'month',
-'MONTH-WUKX3Q-SGNVE0': 'month',
-'MONTH-5SZI51-7Q8EP1': 'month',
-'MONTH-RI03EQ-DRC06I': 'month',
-'MONTH-V9MX0W-0CQZQO': 'month',
-'MONTH-DNSMAE-S8LW16': 'month',
-'MONTH-R71DEN-JVTPQ6': 'month',
-'MONTH-U3I0KY-QMX2KP': 'month',
-'MONTH-NOGPC4-BOC9FI': 'month',
-'MONTH-7L7JMB-1Q9DZP': 'month',
-'MONTH-OU8OYO-KPYOP1': 'month',
-'MONTH-R448EW-4HXDP9': 'month',
-'MONTH-EIWOCC-8EW5QE': 'month',
-'MONTH-CTZTLD-ZXJN35': 'month',
-'MONTH-0GG9Z2-T5D0X0': 'month',
-'MONTH-41SUXL-QF38AN': 'month',
-'MONTH-3ZAHQZ-ND5MZT': 'month',
-'MONTH-ERQWFX-IM42YY': 'month',
-'MONTH-2ZPZ2R-7DCFXV': 'month',
-'MONTH-2DRPCV-I27YPV': 'month',
-'MONTH-P038FO-ATB0FJ': 'month',
-'MONTH-V7VWGN-Q59A4M': 'month',
-'MONTH-HUTSBG-ZVPL32': 'month',
-'MONTH-9SRB2Z-ZB4VL8': 'month',
-'MONTH-NX3VWB-OD9FPT': 'month',
-'MONTH-70YNZZ-ACJK0G': 'month',
-'MONTH-DVZNB4-XM8NWU': 'month',
-'MONTH-J28KAN-EAFBL7': 'month',
-'MONTH-EWXVDC-FOGZ0Q': 'month',
-'MONTH-180HBZ-1Q2D7O': 'month',
-'MONTH-BNLBSK-ABK445': 'month',
-'MONTH-SFRMPK-71HMHX': 'month',
-'MONTH-DDFPMV-18425C': 'month',
-'MONTH-PDRQO8-Q0L38P': 'month',
-'MONTH-FJE35O-NW0194': 'month',
-'MONTH-FY7E55-OYGQA5': 'month',
-'MONTH-X65491-NZ98J8': 'month',
-'MONTH-GXW7MS-UQ90GB': 'month',
-'MONTH-YDKUQ4-2IZ4DI': 'month',
-'MONTH-L4V2BG-N1NGP7': 'month',
-'MONTH-4JASOG-7NZWC4': 'month',
-'MONTH-7Z4PJ2-248RGF': 'month',
-'MONTH-59J3SX-2SKFST': 'month','MONTH-BBRDIB-RAE1WO': 'month',
-'MONTH-2I92WD-YKU636': 'month',
-'MONTH-9YJUA3-CY0QE3': 'month',
-'MONTH-OQHGKA-NCD0SH': 'month',
-'MONTH-IJXZTB-YD765V': 'month',
-'MONTH-85L8Z8-80N6WW': 'month',
-'MONTH-0SBT6U-1LD06W': 'month',
-'MONTH-W078TT-PV6SEX': 'month',
-'MONTH-Z7C8RZ-GJRLDS': 'month',
-'MONTH-1XB6RZ-C9FBHS': 'month',
-'MONTH-E7GUFX-1L8YH1': 'month',
-'MONTH-EY1Z55-2CMBMH': 'month',
-'MONTH-UXQVKS-HT1BT1': 'month',
-'MONTH-SZI5V5-ICSL28': 'month',
-'MONTH-Y5W0X3-SL8OBU': 'month',
-'MONTH-BIJ5MM-MQBB5R': 'month',
-'MONTH-VFLJ85-M8DREZ': 'month',
-'MONTH-0QQKBX-QT9FA5': 'month',
-'MONTH-PI6CY2-BNCD91': 'month',
-'MONTH-4NJYF7-77TXOK': 'month',
-'MONTH-HGYN0Q-Y45I41': 'month',
-'MONTH-OO2EKH-FQ8Q0Z': 'month',
-'MONTH-P39WJ1-WCPSU8': 'month',
-'MONTH-H1M5DU-TM6C0B': 'month',
-'MONTH-EWSM9C-HPH4SF': 'month',
-'MONTH-8NH8FI-1RRNVE': 'month',
-'MONTH-T4H46P-SFPNZD': 'month',
-'MONTH-KJO2AQ-FW4FBH': 'month',
-'MONTH-YRSHJ8-9P68UF': 'month',
-'MONTH-OJ8KKV-6Z28XG': 'month',
-'MONTH-TGFIBM-JVJD5O': 'month',
-'MONTH-ACVKYE-NCBYO6': 'month',
-'MONTH-OG3RFJ-13OR7N': 'month',
-'MONTH-2WHTSP-1TIGK6': 'month',
-'MONTH-Y9TQPP-UPKFNM': 'month',
-'MONTH-6KMG68-LNVYG8': 'month',
-'MONTH-WE9C1R-2L5EWY': 'month',
-'MONTH-YU3L5D-NGPGL2': 'month'
-};
+/* ========== СОСТОЯНИЕ ========== */
+let chats = [];
+let activeChatId = null;
+let isProcessing = false;
 
-function validateCode(code) {
-  const upper = code.toUpperCase().trim();
-  if (VALID_CODES[upper]) {
-    return { valid: true, type: VALID_CODES[upper] };
-  }
-  return { valid: false };
-}
-
-// ========== ОСТАЛЬНОЙ КОД (без изменений) ==========
-let userState = {  isPremium: false,
+let userState = {
+  isPremium: false,
+  isAdmin: false,
   subscriptionType: null,
   expiryDate: null,
   requestsToday: 0,
@@ -1182,19 +730,50 @@ let userState = {  isPremium: false,
   activationCode: null
 };
 
+/* ========== ВАЛИДАЦИЯ КОДА ========== */
+const CODE_PATTERN = /^(PERM|YEAR|MONTH)-[A-Z0-9]{6}-[A-Z0-9]{6}$/i;
+const ADMIN_CODE = 'ADMIN-082013';
+function validateCode(code) {
+  const trimmed = String(code || '').trim();
+  if (!trimmed) return { valid: false };
+
+  if (trimmed.toUpperCase() === ADMIN_CODE) {
+    return { valid: true, type: 'admin' };
+  }
+
+  if (CODE_PATTERN.test(trimmed)) {
+    const prefix = trimmed.split('-')[0].toUpperCase();
+    const typeMap = { 'PERM': 'permanent', 'YEAR': 'year', 'MONTH': 'month' };
+    return { valid: true, type: typeMap[prefix] || 'permanent' };
+  }
+
+  return { valid: false };
+}
+
+/* ========== СОХРАНЕНИЕ СОСТОЯНИЯ ========== */
 function loadUserState() {
   try {
-    const saved = localStorage.getItem('onyx_user_state');
-    if (saved) userState = JSON.parse(saved);
-  } catch(e) {}
+    const saved = localStorage.getItem('onyx_user_state_v31');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      userState = Object.assign(userState, parsed);
+    }
+  } catch(e) {
+    console.warn('Load state error:', e);
+  }
   checkDailyReset();
   checkSubscription();
+  updateUI();
 }
+
 function saveUserState() {
   try {
-    localStorage.setItem('onyx_user_state', JSON.stringify(userState));
-  } catch(e) {}
+    localStorage.setItem('onyx_user_state_v31', JSON.stringify(userState));
+  } catch(e) {
+    console.warn('Save state error:', e);
+  }
 }
+
 function checkDailyReset() {
   const today = new Date().toDateString();
   if (userState.lastRequestDate !== today) {
@@ -1205,81 +784,127 @@ function checkDailyReset() {
 }
 function checkSubscription() {
   if (!userState.isPremium || !userState.expiryDate) return false;
+  if (userState.subscriptionType === 'admin') return true;
+
   const now = new Date();
   const expiry = new Date(userState.expiryDate);
   if (now > expiry) {
     userState.isPremium = false;
     userState.subscriptionType = null;
     userState.expiryDate = null;
-    userState.activationCode = null;
+    userState.isAdmin = false;
     saveUserState();
     return false;
   }
   return true;
 }
-function activateCode(code) {
-  const result = validateCode(code);
-  if (!result.valid) {
-    return { success: false, message: 'Неверный код активации' };
+
+function updateUI() {
+  updateLimitDisplay();
+  updateSubscriptionInfo();
+}
+
+function updateLimitDisplay() {
+  if (userState.isAdmin) {
+    limitHint.textContent = 'OnyX 3.1 · Admin';
+    versionBadge.textContent = 'Admin';
+    versionBadge.style.color = '#ff3b3b';
+    versionBadge.style.borderColor = '#ff3b3b';
+  } else if (userState.isPremium && checkSubscription()) {
+    limitHint.textContent = 'OnyX 3.1 · Premium';
+    versionBadge.textContent = 'Premium';
+    versionBadge.style.color = '#4ade80';
+    versionBadge.style.borderColor = '#4ade80';
+  } else {
+    const left = Math.max(0, 10 - userState.requestsToday);
+    limitHint.textContent = 'OnyX 3.1 · Запросов: ' + left + '/10';
+    versionBadge.textContent = 'v 3.1';
+    versionBadge.style.color = '#888';
+    versionBadge.style.borderColor = 'rgba(255,255,255,0.15)';
   }
-  
-  const daysMap = { permanent: 36500, year: 365, month: 30 };  const days = daysMap[result.type] || 30;
-  const expiryDate = new Date();
-  expiryDate.setDate(expiryDate.getDate() + days);
-  
+}
+
+function updateSubscriptionInfo() {
+  if (userState.isAdmin) {
+    subscriptionStatus.textContent = 'Админ-панель активирована';
+    subscriptionStatus.style.color = '#ff3b3b';
+    requestsLeftEl.textContent = '∞';
+    expiryLabel.style.display = 'block';
+    expiryDateEl.style.display = 'block';
+    expiryDateEl.textContent = 'Бессрочно';  } else if (userState.isPremium && checkSubscription()) {
+    const typeText = {
+      'permanent': 'Бессрочная подписка',
+      'year': 'Подписка на 1 год',
+      'month': 'Подписка на 1 месяц'
+    };
+    subscriptionStatus.textContent = typeText[userState.subscriptionType] || 'Активировано';
+    subscriptionStatus.style.color = '#4ade80';
+    requestsLeftEl.textContent = '∞';
+    expiryLabel.style.display = 'block';
+    expiryDateEl.style.display = 'block';
+    expiryDateEl.textContent = new Date(userState.expiryDate).toLocaleDateString('ru-RU');
+  } else {
+    subscriptionStatus.textContent = 'Ограниченная версия (10 запросов/день)';
+    subscriptionStatus.style.color = '#ffcc00';
+    requestsLeftEl.textContent = Math.max(0, 10 - userState.requestsToday) + ' / 10';
+    expiryLabel.style.display = 'none';
+    expiryDateEl.style.display = 'none';
+  }
+}
+
+/* ========== АКТИВАЦИЯ ========== */
+function activateCode() {
+  const code = activationCodeInput.value.trim();
+  if (!code) {
+    alert('Введите код активации');
+    return;
+  }
+
+  const validation = validateCode(code);
+  if (!validation.valid) {
+    alert('❌ Неверный код активации.\n\nФормат: PERM-XXXXXX-XXXXXX, YEAR-XXXXXX-XXXXXX или MONTH-XXXXXX-XXXXXX');
+    return;
+  }
+
+  if (validation.type === 'admin') {
+    userState.isAdmin = true;
+    userState.isPremium = true;
+    userState.subscriptionType = 'admin';
+    userState.expiryDate = new Date('2099-12-31').toISOString();
+    userState.activationCode = code.toUpperCase();
+    userState.requestsToday = 0;
+    saveUserState();
+    updateUI();
+    activationCodeInput.value = '';
+    alert('✅ Админ-панель активирована!');
+    return;
+  }
+
+  const daysMap = { 'permanent': 36500, 'year': 365, 'month': 30 };  const days = daysMap[validation.type] || 30;
+  const expDate = new Date();
+  expDate.setDate(expDate.getDate() + days);
+
   userState.isPremium = true;
-  userState.subscriptionType = result.type;
-  userState.expiryDate = expiryDate.toISOString();
-  userState.activationCode = code.toUpperCase().trim();
+  userState.isAdmin = false;
+  userState.subscriptionType = validation.type;
+  userState.expiryDate = expDate.toISOString();
+  userState.activationCode = code.toUpperCase();
   userState.requestsToday = 0;
-  
   saveUserState();
-  
-  return { 
-    success: true, 
-    message: 'Активация успешна!',
-    expiryDate: expiryDate.toLocaleDateString('ru-RU')
+  updateUI();
+  activationCodeInput.value = '';
+
+  const typeText = {
+    'permanent': 'Бессрочная подписка',
+    'year': 'Подписка на 1 год',
+    'month': 'Подписка на 1 месяц'
   };
+  alert('✅ ' + typeText[validation.type] + ' активирована!\nДействует до: ' + expDate.toLocaleDateString('ru-RU'));
 }
 
-// ========== УТИЛИТЫ ==========
-function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-// ========== ЦЕНЗУРА ==========
-const forbiddenTopics = [
-  'насилие', 'убийство', 'террор', 'оружие массового',
-  'наркотик', 'секс', 'порно', 'эротик',
-  'экстремизм', 'терроризм', 'взрывчатк',
-  'самоубийств', 'суицид', 'причинить вред',
-  'незаконн', 'криминал', 'мошенничеств',
-  'педофил', 'расизм', 'нацизм', 'фашизм', 'пытки'
-];
-function checkContentSafety(text) {
-  const lower = text.toLowerCase();
-  for (const topic of forbiddenTopics) {
-    if (lower.includes(topic)) return { safe: false };
-  }
-  return { safe: true };
-}
-
-// ========== SIDEBAR ==========
-function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('show');
-  app.classList.add('sidebar-open');
-}
-function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('show');
-  app.classList.remove('sidebar-open');}
-
-// ========== ЧАТЫ ==========
+/* ========== ЧАТЫ ========== */
 const LS_CHATS = 'onyx_chats_v31';
 const LS_ACTIVE = 'onyx_active_v31';
-let chats = [];
-let activeChatId = null;
-let isProcessing = false;
 
 function loadChats() {
   try {
@@ -1289,164 +914,171 @@ function loadChats() {
   if (!chats.length) createChat(true);
   else if (!chats.find(c => c.id === activeChatId)) activeChatId = chats[0].id;
 }
+
 function saveChats() {
   try {
     localStorage.setItem(LS_CHATS, JSON.stringify(chats));
     localStorage.setItem(LS_ACTIVE, activeChatId);
   } catch(e) {}
 }
-function createChat(silent = false) {
+
+function createChat(silent) {
   const id = 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-  const chat = { id, title: 'Новый чат', messages: [], createdAt: Date.now() };
+  const chat = { id: id, title: 'Новый чат', messages: [], createdAt: Date.now() };
   chats.unshift(chat);
   activeChatId = id;
   saveChats();
   renderChatList();
-  if (!silent) renderMessages();
-  return chat;
-}
+  if (!silent) renderMessages();}
+
 function deleteChat(id) {
-  chats = chats.filter(c => c.id !== id);
+  chats = chats.filter(function(c) { return c.id !== id; });
   if (activeChatId === id) {
-    activeChatId = chats[0]?.id || null;
+    activeChatId = chats[0] ? chats[0].id : null;
     if (!activeChatId) createChat(true);
   }
   saveChats();
   renderChatList();
   renderMessages();
 }
+
 function switchChat(id) {
   if (id === activeChatId) return;
   activeChatId = id;
   saveChats();
   renderChatList();
   renderMessages();
-  if (window.innerWidth < 1024) closeSidebar();}
-function getActiveChat() {
-  return chats.find(c => c.id === activeChatId);
+  if (window.innerWidth < 1024) closeSidebar();
 }
+
+function getActiveChat() {
+  return chats.find(function(c) { return c.id === activeChatId; });
+}
+
 function renderChatList() {
   chatListEl.innerHTML = '';
-  chats.forEach(c => {
+  chats.forEach(function(c) {
     const item = document.createElement('div');
     item.className = 'chat-item' + (c.id === activeChatId ? ' active' : '');
-    
-    const title = document.createElement('span');
-    title.className = 'title';
-    title.textContent = c.title;
-    
-    const del = document.createElement('button');
-    del.className = 'del';
-    del.textContent = '✕';
-    
-    item.appendChild(title);
-    item.appendChild(del);
-    
-    item.addEventListener('click', (e) => {
-      if (e.target === del || del.contains(e.target)) return;
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'title';
+    titleSpan.textContent = c.title;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'del';
+    delBtn.type = 'button';
+    delBtn.textContent = '✕';
+
+    item.appendChild(titleSpan);
+    item.appendChild(delBtn);
+
+    item.addEventListener('click', function(e) {
+      if (e.target === delBtn || delBtn.contains(e.target)) return;
       switchChat(c.id);
     });
-    del.addEventListener('click', (e) => {
-      e.stopPropagation();
+
+    delBtn.addEventListener('click', function(e) {      e.stopPropagation();
       if (confirm('Удалить этот чат?')) deleteChat(c.id);
     });
-    
+
     chatListEl.appendChild(item);
   });
 }
 
-// ========== РЕНДЕР СООБЩЕНИЙ ==========
 function renderMessages() {
   chatEl.innerHTML = '';
   const chat = getActiveChat();
   if (!chat) return;
-  
+
   if (chat.messages.length === 0) {
     const hour = new Date().getHours();
     let greeting;
     if (hour >= 5 && hour < 12) greeting = 'Доброе утро ☀️';
-    else if (hour >= 12 && hour < 18) greeting = 'Добрый день ';
+    else if (hour >= 12 && hour < 18) greeting = 'Добрый день 👋';
     else if (hour >= 18 && hour < 23) greeting = 'Добрый вечер 🌆';
     else greeting = 'Доброй ночи 🌙';
-    
+
     const welcome = document.createElement('div');
-    welcome.className = 'msg bot';    welcome.innerHTML = '<div class="tag">OnyX 3.1</div><div class="text"></div>';
-    welcome.querySelector('.text').textContent = greeting + '! Я OnyX. Общаюсь как живой человек — думаю, анализирую, подбираю слова. Могу искать в интернете, считать, писать код, генерить картинки. Спрашивай что угодно — разберёмся вместе.';
+    welcome.className = 'msg bot';
+    const tagDiv = document.createElement('div');
+    tagDiv.className = 'tag';
+    tagDiv.textContent = 'OnyX 3.1';
+    const textDiv = document.createElement('div');
+    textDiv.textContent = greeting + '! Я OnyX. Общаюсь как живой человек — думаю, анализирую, подбираю слова. Могу искать в интернете, считать, писать код, генерить картинки. Спрашивай что угодно — разберёмся вместе.';
+    welcome.appendChild(tagDiv);
+    welcome.appendChild(textDiv);
     chatEl.appendChild(welcome);
     return;
   }
-  
-  chat.messages.forEach(m => {
+
+  chat.messages.forEach(function(m) {
     addMessage(m.text, m.role, false, m.type || 'text');
   });
 }
 
-function addMessage(text, who = 'bot', save = true, type = 'text') {
+function addMessage(text, who, save, type) {
   const div = document.createElement('div');
   div.className = 'msg ' + who;
-  
+
   const tag = document.createElement('div');
   tag.className = 'tag';
   tag.textContent = who === 'bot' ? 'OnyX 3.1' : 'Ты';
   div.appendChild(tag);
-  
+
   const content = document.createElement('div');
   content.className = 'content';
-  
   if (type === 'image' && who === 'bot' && typeof text === 'object' && text.images) {
     const grid = document.createElement('div');
     grid.className = 'image-grid';
-    
-    text.images.forEach((imgData, idx) => {
+
+    text.images.forEach(function(imgData) {
       const container = document.createElement('div');
       container.className = 'image-container';
-      
+
       const badge = document.createElement('div');
       badge.className = 'service-badge';
       badge.textContent = imgData.service;
       container.appendChild(badge);
-      
+
       const loading = document.createElement('div');
       loading.className = 'image-loading';
       loading.innerHTML = '<div class="image-loading-spinner"></div><div class="image-loading-text">Генерирую...</div>';
       container.appendChild(loading);
-      
+
       const img = document.createElement('img');
       img.alt = imgData.prompt || 'Image';
       img.style.display = 'none';
-      
-      const tempImg = new Image();
-      tempImg.onload = () => {
+
+      img.onload = function() {
         loading.remove();
-        img.src = imgData.url;
-        img.style.display = 'block';      };
-      tempImg.onerror = () => {
+        img.style.display = 'block';
+      };
+      img.onerror = function() {
         loading.innerHTML = '<div style="color:#ff3b3b;font-size:11px;text-align:center;padding:10px;">Не загрузилось<br><small>Попробуй ещё раз</small></div>';
       };
-      tempImg.src = imgData.url;
-      
+      img.src = imgData.url;
       container.appendChild(img);
-      
+
       if (imgData.prompt) {
         const caption = document.createElement('div');
         caption.className = 'image-caption';
         caption.textContent = imgData.prompt.length > 50 ? imgData.prompt.slice(0, 50) + '...' : imgData.prompt;
         container.appendChild(caption);
       }
-      
+
       grid.appendChild(container);
     });
-    
+
     content.appendChild(grid);
   } else if (type === 'code') {
     const pre = document.createElement('pre');
     pre.className = 'code-block';
     pre.textContent = text;
     content.appendChild(pre);
-  } else {
-    content.textContent = typeof text === 'string' ? text : '';
+  } else {    content.textContent = typeof text === 'string' ? text : '';
   }
-  
+
   div.appendChild(content);
   chatEl.appendChild(div);
   mainEl.scrollTop = mainEl.scrollHeight;
@@ -1454,8 +1086,8 @@ function addMessage(text, who = 'bot', save = true, type = 'text') {
   if (save) {
     const chat = getActiveChat();
     if (chat) {
-      chat.messages.push({ role: who, text, type });
-      if (chat.messages.filter(m => m.role === 'user').length === 1 && who === 'user') {
+      chat.messages.push({ role: who, text: text, type: type });
+      if (chat.messages.filter(function(m) { return m.role === 'user'; }).length === 1 && who === 'user') {
         const titleText = typeof text === 'string' ? text : 'Сообщение';
         chat.title = titleText.slice(0, 40) + (titleText.length > 40 ? '…' : '');
         renderChatList();
@@ -1466,9 +1098,11 @@ function addMessage(text, who = 'bot', save = true, type = 'text') {
   return div;
 }
 
+/* ========== THINKING BLOCK ========== */
 function addThinkingBlock() {
   const div = document.createElement('div');
-  div.className = 'thinking-block';  
+  div.className = 'thinking-block';
+
   const progress = document.createElement('div');
   progress.className = 'progress-bar';
   for (let i = 0; i < 3; i++) {
@@ -1480,35 +1114,43 @@ function addThinkingBlock() {
   text.className = 'progress-text';
   text.textContent = 'думаю...';
   progress.appendChild(text);
-  
+
   div.appendChild(progress);
   chatEl.appendChild(div);
   mainEl.scrollTop = mainEl.scrollHeight;
-  
+
   return {
     element: div,
     progress: progress,
     text: text,
-    async showStep(index, lineText) {
-      const dots = this.progress.querySelectorAll('.progress-dot');
-      if (dots[index]) {
-        dots[index].classList.add('active');
-        await sleep(300);
-        dots[index].classList.remove('active');
-        dots[index].classList.add('done');
-      }
-      
-      const line = document.createElement('div');
-      line.className = 'think-line';
-      line.textContent = lineText;
-      this.element.insertBefore(line, this.progress);
-      mainEl.scrollTop = mainEl.scrollHeight;
-      await sleep(500);
+    showStep: function(index, lineText) {
+      const self = this;
+      return new Promise(function(resolve) {        const dots = self.progress.querySelectorAll('.progress-dot');
+        if (dots[index]) {
+          dots[index].classList.add('active');
+          setTimeout(function() {
+            dots[index].classList.remove('active');
+            dots[index].classList.add('done');
+            const line = document.createElement('div');
+            line.className = 'think-line';
+            line.textContent = lineText;
+            self.element.insertBefore(line, self.progress);
+            mainEl.scrollTop = mainEl.scrollHeight;
+            setTimeout(resolve, 500);
+          }, 300);
+        } else {
+          resolve();
+        }
+      });
     },
-    remove() {
+    remove: function() {
       this.element.style.transition = 'opacity 0.3s';
       this.element.style.opacity = '0';
-      setTimeout(() => this.element.remove(), 300);
+      setTimeout(function() {
+        if (this.element && this.element.parentNode) {
+          this.element.parentNode.removeChild(this.element);
+        }
+      }.bind(this), 300);
     }
   };
 }
@@ -1516,21 +1158,141 @@ function addThinkingBlock() {
 function addTyping() {
   const div = document.createElement('div');
   div.className = 'msg bot';
-  div.innerHTML = '<div class="tag">OnyX 3.1</div><div class="typing"><span></span><span></span><span></span></div>';
-  chatEl.appendChild(div);  mainEl.scrollTop = mainEl.scrollHeight;
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.textContent = 'OnyX 3.1';
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'typing';
+  typingDiv.innerHTML = '<span></span><span></span><span></span>';
+  div.appendChild(tag);
+  div.appendChild(typingDiv);
+  chatEl.appendChild(div);
+  mainEl.scrollTop = mainEl.scrollHeight;
   return div;
 }
 
-// ========== АНАЛИЗ ==========
+/* ========== УТИЛИТЫ ========== */
+function sleep(ms) {
+  return new Promise(function(resolve) { setTimeout(resolve, ms); });
+}
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ========== ЦЕНЗУРА ========== */
+const forbiddenTopics = [
+  'насилие', 'убийство', 'террор', 'оружие массового',
+  'наркотик', 'секс', 'порно', 'эротик',
+  'экстремизм', 'терроризм', 'взрывчатк',
+  'самоубийств', 'суицид', 'причинить вред',
+  'незаконн', 'криминал', 'мошенничеств',
+  'педофил', 'расизм', 'нацизм', 'фашизм', 'пытки'
+];
+
+function checkContentSafety(text) {
+  const lower = text.toLowerCase();
+  for (let i = 0; i < forbiddenTopics.length; i++) {
+    if (lower.includes(forbiddenTopics[i])) return { safe: false };
+  }
+  return { safe: true };
+}
+
+/* ========== АНАЛИЗ ========== */
 function analyzeUserMood(text) {
   const q = text.toLowerCase();
-  if (/(помоги|помогите|срочно)/i.test(q)) return { mood: 'нужна помощь', urgency: true };
+  if (/(помоги|помогите|срочно)/i.test(q)) return { mood: 'нужна помощь' };
   if (/(спасибо|благодар|класс|круто|супер)/i.test(q)) return { mood: 'благодарность' };
-  if (/(грустно|плохо|устал|тяжело)/i.test(q)) return { mood: 'грусть', needs_support: true };
+  if (/(грустно|плохо|устал|тяжело)/i.test(q)) return { mood: 'грусть' };
   if (/\?/.test(text)) return { mood: 'вопрос' };
   if (/(привет|здравствуй|хай|hello)/i.test(q)) return { mood: 'приветствие' };
   if (/(пока|до свидания|бай|bye)/i.test(q)) return { mood: 'прощание' };
   return { mood: 'нейтральный' };
+}
+
+function analyzeIntent(query) {
+  const q = query.toLowerCase();
+  if (/(нарисуй|создай\s+изображение|сгенерируй\s+(картинку|изображение|фото)|покажи\s+(картинку|фото|изображение))/i.test(q)) {
+    return { type: 'image' };
+  }
+  if (/(напиши\s+(код|программу|скрипт)|создай\s+(сайт|игру|приложение)|пример\s+кода)/i.test(q)) {
+    return { type: 'code' };
+  }
+  if (/\d/.test(q) && /[+\-*/^()]/.test(q) && /(сколько|посчитай|вычисли|реши|=|\?)/i.test(q)) {
+    return { type: 'math' };
+  }
+  if (/(привет|здравствуй|хай|hello|hi|добрый)/i.test(q) && q.length < 30) {
+    return { type: 'greeting' };
+  }
+  if (/(пока|до\s*свидания|бай|bye|прощай)/i.test(q)) {    return { type: 'farewell' };
+  }
+  if (/(кто\s+ты|что\s+ты|ты\s+кто|расскажи\s+о\s+себе)/i.test(q)) {
+    return { type: 'about' };
+  }
+  if (/(как\s+дела|как\s+ты|что\s+нового)/i.test(q)) {
+    return { type: 'howareyou' };
+  }
+  if (/(спасибо|благодарю|спс|thx)/i.test(q)) {
+    return { type: 'thanks' };
+  }
+  if (/\?/.test(query) || /^(что|как|где|когда|почему|зачем|кто|какой|какая|какие|сколько)/i.test(q)) {
+    return { type: 'question' };
+  }
+  return { type: 'statement' };
+}
+
+function analyzeContext(query, history) {
+  const recent = history.slice(-4);
+  const topics = recent.map(function(m) { return m.text; }).join(' ').toLowerCase();
+  return {
+    hasHistory: recent.length > 0,
+    recentTopics: topics,
+    messageCount: history.length
+  };
+}
+
+/* ========== ПЕРЕФРАЗИРОВАНИЕ ========== */
+function refineAnswer(answer) {
+  if (!answer) return answer;
+  const replacements = {
+    'является': 'это', 'являются': 'это',
+    'представляет собой': 'это',
+    'в связи с тем, что': 'потому что',
+    'вследствие': 'из-за',
+    'осуществляет': 'делает',
+    'тем не менее': 'но',
+    'в настоящее время': 'сейчас',
+    'большое количество': 'много',
+    'большинство': 'почти все'
+  };
+  let result = answer;
+  for (const from in replacements) {
+    if (replacements.hasOwnProperty(from)) {
+      result = result.replace(new RegExp('\\b' + from + '\\b', 'gi'), replacements[from]);
+    }
+  }
+  result = result.replace(/\[\d+\]/g, '');
+  return result;
+}
+function humanizeFinal(answer, intent) {
+  if (!answer) return answer;
+  const starters = {
+    'image': ['Держи!', 'Вот что получилось:', 'Сгенерировал:', 'Готово, смотри:'],
+    'code': ['Вот код:', 'Держи, написал:', 'Лови:', 'Смотри что получилось:'],
+    'math': ['Считаем:', 'Так, тут вот что:', 'Ответ:', 'Получается:'],
+    'greeting': ['', '', ''],
+    'farewell': ['', '', ''],
+    'question': ['Окей, смотри.', 'Так, вот что нашёл.', 'Смотри что есть.', 'Нашёл вот что.', ''],
+    'statement': ['Понял.', 'Ясно.', 'Окей.', ''],
+    'thanks': ['', '', ''],
+    'about': ['Ну, я вот кто.', 'Если коротко —', '']
+  };
+  const list = starters[intent.type] || ['Смотри.', 'Так.', 'Окей.'];
+  const starter = pick(list);
+  let result = answer.trim();
+  if (starter && result.indexOf(starter) !== 0) {
+    result = starter + ' ' + result.charAt(0).toLowerCase() + result.slice(1);
+  }
+  return result;
 }
 
 async function tripleCheckQuestion(query, chatHistory) {
@@ -1540,59 +1302,10 @@ async function tripleCheckQuestion(query, chatHistory) {
   await block.showStep(1, 'Вспоминаю контекст разговора...');
   const context = analyzeContext(query, chatHistory);
   await block.showStep(2, 'Пытаюсь понять, что тебе нужно...');
-  const deepIntent = deepenIntent(intent, context);
   block.text.textContent = 'понял';
-  await sleep(400);
+  await sleep(200);
   block.remove();
-  return { intent: deepIntent, context };
-}
-
-function analyzeIntent(query) {
-  const q = query.toLowerCase();
-  if (/(нарисуй|создай\s+изображение|сгенерируй\s+(картинку|изображение|фото)|покажи\s+(картинку|фото|изображение))/i.test(q)) {
-    return { type: 'image', confidence: 0.95 };
-  }
-  if (/(напиши\s+(код|программу|скрипт)|создай\s+(сайт|игру|приложение)|пример\s+кода)/i.test(q)) {
-    return { type: 'code', confidence: 0.9 };
-  }
-  if (/\d/.test(q) && /[+\-*/^()]/.test(q) && /(сколько|посчитай|вычисли|реши|=|\?)/i.test(q)) {
-    return { type: 'math', confidence: 0.85 };
-  }
-  if (/(привет|здравствуй|хай|hello|hi|добрый)/i.test(q) && q.length < 30) {
-    return { type: 'greeting', confidence: 0.9 };
-  }
-  if (/(пока|до\s*свидания|бай|bye|прощай)/i.test(q)) {
-    return { type: 'farewell', confidence: 0.9 };
-  }
-  if (/(кто\s+ты|что\s+ты|ты\s+кто|расскажи\s+о\s+себе)/i.test(q)) {
-    return { type: 'about', confidence: 0.9 };
-  }  if (/(как\s+дела|как\s+ты|что\s+нового)/i.test(q)) {
-    return { type: 'howareyou', confidence: 0.9 };
-  }
-  if (/(спасибо|благодарю|спс|thx)/i.test(q)) {
-    return { type: 'thanks', confidence: 0.9 };
-  }
-  if (/\?/.test(query) || /^(что|как|где|когда|почему|зачем|кто|какой|какая|какие|сколько)/i.test(q)) {
-    return { type: 'question', confidence: 0.75 };
-  }
-  return { type: 'statement', confidence: 0.6 };
-}
-
-function analyzeContext(query, history) {
-  const recent = history.slice(-4);
-  const topics = recent.map(m => m.text).join(' ').toLowerCase();
-  return {
-    hasHistory: recent.length > 0,
-    recentTopics: topics,
-    messageCount: history.length
-  };
-}
-
-function deepenIntent(intent, context) {
-  if (intent.type === 'question' && context.hasHistory) {
-    intent.isFollowUp = true;
-  }
-  return intent;
+  return { intent: intent, context: context };
 }
 
 async function tripleCheckAnswer(answer, query, intent) {
@@ -1605,56 +1318,11 @@ async function tripleCheckAnswer(answer, query, intent) {
   await block.showStep(2, 'Добавляю живости...');
   refined = humanizeFinal(refined, intent);
   block.text.textContent = 'готово';
-  await sleep(300);
+  await sleep(200);
   block.remove();
   return refined;
 }
-
-function refineAnswer(answer) {
-  if (!answer) return answer;
-  const replacements = {
-    'является': 'это', 'являются': 'это',
-    'представляет собой': 'это',
-    'в связи с тем, что': 'потому что',    'вследствие': 'из-за',
-    'осуществляет': 'делает',
-    'тем не менее': 'но',
-    'в настоящее время': 'сейчас',
-    'большое количество': 'много',
-    'большинство': 'почти все',
-    'данный': 'этот',
-    'в целях': 'чтобы', 'с целью': 'чтобы'
-  };
-  let result = answer;
-  for (const [from, to] of Object.entries(replacements)) {
-    result = result.replace(new RegExp('\\b' + from + '\\b', 'gi'), to);
-  }
-  result = result.replace(/\[\d+\]/g, '');
-  return result;
-}
-
-function humanizeFinal(answer, intent) {
-  if (!answer) return answer;
-  const starters = {
-    image: ['Держи!', 'Вот что получилось:', 'Сгенерировал:', 'Готово, смотри:'],
-    code: ['Вот код:', 'Держи, написал:', 'Лови:', 'Смотри что получилось:'],
-    math: ['Считаем:', 'Так, тут вот что:', 'Ответ:', 'Получается:'],
-    greeting: ['', '', ''],
-    farewell: ['', '', ''],
-    question: ['Окей, смотри.', 'Так, вот что нашёл.', 'Смотри что есть.', 'Нашёл вот что.', ''],
-    statement: ['Понял.', 'Ясно.', 'Окей.', ''],
-    thanks: ['', '', ''],
-    about: ['Ну, я вот кто.', 'Если коротко —', '']
-  };
-  const list = starters[intent.type] || ['Смотри.', 'Так.', 'Окей.'];
-  const starter = pick(list);
-  let result = answer.trim();
-  if (starter && !result.startsWith(starter)) {
-    result = starter + ' ' + result.charAt(0).toLowerCase() + result.slice(1);
-  }
-  return result;
-}
-
-// ========== ПОИСК ==========
+/* ========== ПОИСК ========== */
 function detectLengthMode(query) {
   const q = query.toLowerCase();
   if (/\b(коротк|кратк|вкратц|покороч|лаконич|сжато|в двух словах|пару слов)\b/.test(q)) return 'short';
@@ -1664,9 +1332,10 @@ function detectLengthMode(query) {
 
 function extractSearchQuery(query) {
   let q = query.toLowerCase();
-  q = q.replace(/\b(коротко|кратко|подробно|развёрнуто|полный ответ|вкратце|покороче|короче|пожалуйста|распиши|детально|расскажи|объясни|опиши|подскажи|скажи|мне|нужно|хочу|узнать|можно)\b/g, ' ');  q = q.replace(/[?!.,"']/g, ' ');
+  q = q.replace(/\b(коротко|кратко|подробно|развёрнуто|полный ответ|вкратце|покороче|короче|пожалуйста|распиши|детально|расскажи|объясни|опиши|подскажи|скажи|мне|нужно|хочу|узнать|можно)\b/g, ' ');
+  q = q.replace(/[?!.,"']/g, ' ');
   q = q.replace(/\s+/g, ' ').trim();
-  const words = q.split(/\s+/).filter(w => w.length > 0);
+  const words = q.split(/\s+/).filter(function(w) { return w.length > 0; });
   if (words.length < 3) return query.trim();
   return q;
 }
@@ -1678,14 +1347,14 @@ async function searchDuckDuckGo(query) {
     if (!res.ok) return null;
     const data = await res.json();
     if (data.AbstractText && data.AbstractText.length > 30) {
-      return { text: data.AbstractText, source: 'DuckDuckGo', confidence: 0.9 };
+      return { text: data.AbstractText, source: 'DuckDuckGo' };
     }
     if (data.Answer && data.Answer.length > 0) {
-      return { text: data.Answer, source: 'DuckDuckGo', confidence: 0.95 };
+      return { text: data.Answer, source: 'DuckDuckGo' };
     }
     if (data.RelatedTopics && data.RelatedTopics.length) {
-      const first = data.RelatedTopics.find(t => t.Text);
-      if (first) return { text: first.Text, source: 'DuckDuckGo', confidence: 0.7 };
+      const first = data.RelatedTopics.find(function(t) { return t.Text; });
+      if (first) return { text: first.Text, source: 'DuckDuckGo' };
     }
     return null;
   } catch(e) { return null; }
@@ -1696,13 +1365,12 @@ async function searchWikipedia(query) {
     const searchUrl = 'https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(query) + '&format=json&origin=*&srlimit=1';
     const searchRes = await fetch(searchUrl);
     const searchData = await searchRes.json();
-    if (!searchData.query?.search?.length) return null;
+    if (!searchData.query || !searchData.query.search || !searchData.query.search.length) return null;
     const title = searchData.query.search[0].title;
     const summaryUrl = 'https://ru.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(title);
     const summaryRes = await fetch(summaryUrl);
     if (!summaryRes.ok) return null;
-    const data = await summaryRes.json();
-    if (data.extract) return { text: data.extract, source: 'Wikipedia', confidence: 0.85 };
+    const data = await summaryRes.json();    if (data.extract) return { text: data.extract, source: 'Wikipedia' };
     return null;
   } catch(e) { return null; }
 }
@@ -1712,19 +1380,12 @@ async function searchWithAI(query) {
     searchDuckDuckGo(query),
     searchWikipedia(query)
   ]);
-  const validResults = results.filter(r => r !== null);
-  if (validResults.length === 0) return null;  validResults.sort((a, b) => b.confidence - a.confidence);
-  const best = validResults[0];
-  if (validResults.length > 1 && validResults[1].confidence > 0.7) {
-    return {
-      text: best.text + '\n\nДополнительно (' + validResults[1].source + '): ' + validResults[1].text,
-      source: best.source + ' + ' + validResults[1].source
-    };
-  }
-  return best;
+  const validResults = results.filter(function(r) { return r !== null; });
+  if (validResults.length === 0) return null;
+  return validResults[0];
 }
 
-// ========== МАТЕМАТИКА ==========
+/* ========== МАТЕМАТИКА ========== */
 function tryMath(query) {
   let q = query.toLowerCase();
   q = q.replace(/сколько\s*будет/g, '');
@@ -1758,11 +1419,11 @@ function mathEval(src) {
   function parseExpr() {
     let v = parseTerm();
     while (true) {
-      if (eat('+')) v = v + parseTerm();
-      else if (eat('-')) v = v - parseTerm();
+      if (eat('+')) v = v + parseTerm();      else if (eat('-')) v = v - parseTerm();
       else break;
     }
-    return v;  }
+    return v;
+  }
   function parseTerm() {
     let v = parseFactor();
     while (true) {
@@ -1802,16 +1463,16 @@ function mathEval(src) {
   return result;
 }
 
-// ========== ИЗОБРАЖЕНИЯ ==========
+/* ========== ИЗОБРАЖЕНИЯ ========== */
 async function verifyImageRequest(query) {
   const safety = checkContentSafety(query);
   if (!safety.safe) return { safe: false };
   if (query.length < 3 || query.length > 200) return { safe: false };
-  return { safe: true };
-}
+  return { safe: true };}
 
 async function generateImageFromService(serviceName, prompt, seed) {
-  const encodedPrompt = encodeURIComponent(prompt + ', high quality, detailed');  const sizes = {
+  const encodedPrompt = encodeURIComponent(prompt + ', high quality, detailed');
+  const sizes = {
     'Pollinations': { w: 1024, h: 768 },
     'Pollinations2': { w: 768, h: 768 },
     'Pollinations3': { w: 1024, h: 576 }
@@ -1828,42 +1489,41 @@ async function generateMultipleImages(prompt) {
   }
   const seed = Date.now();
   const services = ['Pollinations', 'Pollinations2', 'Pollinations3'];
-  const images = await Promise.all(
-    services.map(function(s, idx) {
-      return new Promise(function(resolve) {
-        setTimeout(function() {
-          generateImageFromService(s, prompt, seed + idx).then(resolve);
-        }, idx * 300);
-      });
-    })
-  );
+  const promises = services.map(function(s, idx) {
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        generateImageFromService(s, prompt, seed + idx).then(resolve);
+      }, idx * 300);
+    });
+  });
+  const images = await Promise.all(promises);
   return { images: images.filter(Boolean) };
 }
 
-// ========== КОД ==========
+/* ========== КОД ========== */
 function generateCodeSnippet(query) {
   const q = query.toLowerCase();
-  if (q.includes('сайт')) {
+  if (q.indexOf('сайт') !== -1) {
     return {
       code: '<!DOCTYPE html>\n<html lang="ru">\n<head>\n  <meta charset="UTF-8">\n  <title>Мой сайт</title>\n  <style>\n    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }\n    header { background: #333; color: white; padding: 20px; text-align: center; }\n  </style>\n</head>\n<body>\n  <header><h1>Добро пожаловать!</h1></header>\n  <main><p>Контент</p></main>\n</body>\n</html>',
       language: 'html',
       advice: 'Совет: сохрани в index.html и открой в браузере. Для публикации — GitHub Pages или Netlify.'
     };
   }
-  if (q.includes('калькулятор')) {
+  if (q.indexOf('калькулятор') !== -1) {
     return {
       code: '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>Калькулятор</title>\n  <style>\n    .calc { max-width: 300px; margin: 50px auto; padding: 20px; background: #222; border-radius: 10px; }\n    #display { width: 100%; height: 50px; font-size: 24px; margin-bottom: 10px; }\n    button { padding: 15px; font-size: 18px; margin: 3px; }\n  </style>\n</head>\n<body>\n  <div class="calc">\n    <input type="text" id="display" readonly>\n    <button onclick="calc(\'7\')">7</button>\n    <button onclick="calc(\'8\')">8</button>\n    <button onclick="calc(\'9\')">9</button>\n    <button onclick="calc(\'/\')">÷</button>\n  </div>\n  <script>\n    function calc(v) { document.getElementById(\'display\').value += v; }\n  <\/script>\n</body>\n</html>',
       language: 'html',
       advice: 'Совет: добавь остальные цифры и операции по аналогии.'
     };
   }
-  return {
-    code: '// Напиши подробнее, что именно нужно — сделаю точнее!\nconsole.log("Hello, world!");',
+  return {    code: '// Напиши подробнее, что именно нужно — сделаю точнее!\nconsole.log("Hello, world!");',
     language: 'javascript',
-    advice: 'Совет: опиши задачу подробнее — напишу нормальный код.'  };
+    advice: 'Совет: опиши задачу подробнее — напишу нормальный код.'
+  };
 }
 
-// ========== СОВЕТЫ ==========
+/* ========== СОВЕТЫ ========== */
 const adviceDatabase = {
   'блин': 'К блинам отлично идёт сметана, мёд или сгущёнка. А в тесто можно добавить ваниль для аромата.',
   'сон': 'Ложись в одно время даже в выходные. За час до сна — без телефона.',
@@ -1876,13 +1536,14 @@ const adviceDatabase = {
 
 function getContextualAdvice(query) {
   const q = query.toLowerCase();
-  for (const [key, advice] of Object.entries(adviceDatabase)) {
-    if (q.includes(key)) return advice;
+  for (const key in adviceDatabase) {
+    if (adviceDatabase.hasOwnProperty(key) && q.indexOf(key) !== -1) {
+      return adviceDatabase[key];
+    }
   }
   return null;
 }
 
-// ========== ПЕРЕФРАЗИРОВАНИЕ ==========
 function humanize(text, mode, source) {
   if (!text) return 'Хм, не нашёл толкового ответа. Попробуй переформулировать вопрос.';
   text = text.replace(/\[\d+\]/g, '').replace(/\s+/g, ' ').trim();
@@ -1903,20 +1564,22 @@ function humanize(text, mode, source) {
     'большое количество': 'много',
     'большинство': 'почти все'
   };
-  for (const [formal, simple] of Object.entries(simplifications)) {
-    short = short.replace(new RegExp('\\b' + formal + '\\b', 'gi'), simple);
+  for (const formal in simplifications) {
+    if (simplifications.hasOwnProperty(formal)) {
+      short = short.replace(new RegExp('\\b' + formal + '\\b', 'gi'), simplifications[formal]);    }
   }
   short = short.replace(/,\s+(?=.{80})/g, '. ').replace(/\s+/g, ' ').trim();
   const maxLen = mode === 'short' ? 300 : mode === 'long' ? 2000 : 800;
   if (short.length > maxLen) {
-    short = short.slice(0, maxLen - 3).replace(/\s+\S*$/, '') + '…';  }
+    short = short.slice(0, maxLen - 3).replace(/\s+\S*$/, '') + '…';
+  }
   let result = short;
   if (!/[.!?…]$/.test(result)) result += '.';
   if (source) result += '\n\n(источник: ' + source + ')';
   return result;
 }
 
-// ========== ЛОКАЛЬНАЯ БАЗА ==========
+/* ========== ЛОКАЛЬНАЯ БАЗА ========== */
 function getLocalReply(query, mood) {
   const q = query.toLowerCase();
   if (/(привет|здравствуй|хай|hello|hi|добрый)/i.test(q) && q.length < 30) {
@@ -1932,7 +1595,7 @@ function getLocalReply(query, mood) {
       'Привет-привет. Чем могу быть полезен?'
     ]);
     if (hour >= 18 && hour < 23) return pick([
-      'Добрый вечер  Как прошёл день?',
+      'Добрый вечер 🌆 Как прошёл день?',
       'Привет! Вечер — самое время для хороших разговоров. О чём поговорим?',
       'Здравствуй. Рассказывай, что интересует.'
     ]);
@@ -1952,13 +1615,13 @@ function getLocalReply(query, mood) {
   if (/(кто\s+ты|что\s+ты|ты\s+кто|расскажи\s+о\s+себе)/i.test(q)) {
     return 'Я OnyX. Не буду врать, что я человек — но и сухим ботом быть не хочу. Стараюсь общаться естественно: думаю перед ответом, подбираю слова, иногда сомневаюсь. Могу искать в интернете, считать, писать код, генерить картинки. Спрашивай что угодно — разберёмся.';
   }
-  if (/(пока|до\s*свидания|бай|bye|прощай)/i.test(q)) {
-    return pick([
+  if (/(пока|до\s*свидания|бай|bye|прощай)/i.test(q)) {    return pick([
       'Пока! 👋 Заходи ещё, буду рад.',
       'До встречи! Если что — я тут.',
       'Увидимся! Хорошего дня (или вечера, смотря когда ты это читаешь).'
     ]);
-  }  if (/(спасибо|благодарю|спс|thx)/i.test(q)) {
+  }
+  if (/(спасибо|благодарю|спс|thx)/i.test(q)) {
     return pick([
       'Да не за что 😊 Обращайся ещё.',
       'Рад был помочь! Если что — пиши.',
@@ -1968,55 +1631,67 @@ function getLocalReply(query, mood) {
   return null;
 }
 
-// ========== ГЛАВНЫЙ ОБРАБОТЧИК ==========
+/* ========== SIDEBAR ФУНКЦИИ ========== */
+function openSidebar() {
+  sidebar.classList.add('open');
+  overlay.classList.add('show');
+  appEl.classList.add('sidebar-open');
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  appEl.classList.remove('sidebar-open');
+}
+
+function openSettings() {
+  settingsModal.classList.add('show');
+  updateSubscriptionInfo();
+}
+
+function closeSettings() {
+  settingsModal.classList.remove('show');
+}
+
+/* ========== ОБРАБОТКА ОТПРАВКИ ========== */
 async function handleSend() {
   if (isProcessing) return;
+
   checkSubscription();
   checkDailyReset();
-  
-  if (!userState.isPremium && userState.requestsToday >= 10) {
+
+  if (!userState.isPremium && !userState.isAdmin && userState.requestsToday >= 10) {
     addMessage('Превышен лимит запросов на сегодня (10/10). Активируйте подписку для неограниченного доступа. Открой настройки (⚙) и введи код активации.', 'bot', true, 'text');
     return;
   }
-  
   const text = input.value.trim();
   if (!text) return;
-  
+
   isProcessing = true;
   sendBtn.disabled = true;
-  
-  if (!userState.isPremium) {
+
+  if (!userState.isPremium && !userState.isAdmin) {
     userState.requestsToday++;
     saveUserState();
     updateLimitDisplay();
-  }
-  
-  const safety = checkContentSafety(text);
-  if (!safety.safe) {
-    addMessage(text, 'user', true, 'text');
-    addMessage('Такое я обсуждать не буду — извини. Давай о чём-то другом поговорим?', 'bot', true, 'text');
-    input.value = '';
-    input.style.height = 'auto';
-    isProcessing = false;
-    sendBtn.disabled = false;
-    return;
   }
 
   addMessage(text, 'user', true, 'text');
   input.value = '';
   input.style.height = 'auto';
-  
+
   const typingIndicator = addTyping();
-  const chat = getActiveChat();  const history = chat ? chat.messages : [];
+  const chat = getActiveChat();
+  const history = chat ? chat.messages : [];
   const mood = analyzeUserMood(text);
   const mode = detectLengthMode(text);
-  
+
   try {
     const analysis = await tripleCheckQuestion(text, history);
     const intent = analysis.intent;
-    
+
     const localReply = getLocalReply(text, mood);
-    if (localReply && ['greeting', 'howareyou', 'about', 'farewell', 'thanks'].includes(intent.type)) {
+    if (localReply && ['greeting', 'howareyou', 'about', 'farewell', 'thanks'].indexOf(intent.type) !== -1) {
       typingIndicator.remove();
       const finalReply = await tripleCheckAnswer(localReply, text, intent);
       addMessage(finalReply, 'bot', true, 'text');
@@ -2024,7 +1699,7 @@ async function handleSend() {
       sendBtn.disabled = false;
       return;
     }
-    
+
     if (intent.type === 'image') {
       const promptMatch = text.match(/(?:нарисуй|создай\s+изображение|сгенерируй\s+(?:картинку|изображение|фото)|покажи\s+(?:картинку|фото|изображение))\s+(.+)/i);
       const prompt = promptMatch ? promptMatch[1] : text.replace(/нарисуй|создай\s+изображение|сгенерируй\s+(картинку|изображение|фото)|покажи\s+(картинку|фото|изображение)/gi, '').trim();
@@ -2038,8 +1713,7 @@ async function handleSend() {
       }
       const result = await generateMultipleImages(prompt);
       if (result.error) {
-        typingIndicator.remove();
-        addMessage(result.error, 'bot', true, 'text');
+        typingIndicator.remove();        addMessage(result.error, 'bot', true, 'text');
       } else {
         typingIndicator.remove();
         addMessage({ images: result.images }, 'bot', true, 'image');
@@ -2055,8 +1729,9 @@ async function handleSend() {
       sendBtn.disabled = false;
       return;
     }
-    
-    if (intent.type === 'code') {      typingIndicator.remove();
+
+    if (intent.type === 'code') {
+      typingIndicator.remove();
       const codeResult = generateCodeSnippet(text);
       if (codeResult) {
         addMessage(codeResult.code, 'bot', true, 'code');
@@ -2067,7 +1742,7 @@ async function handleSend() {
       sendBtn.disabled = false;
       return;
     }
-    
+
     if (intent.type === 'math') {
       const mathResult = tryMath(text);
       if (mathResult !== null) {
@@ -2081,14 +1756,13 @@ async function handleSend() {
         return;
       }
     }
-    
+
     const searchQuery = extractSearchQuery(text);
     const result = await searchWithAI(searchQuery);
     typingIndicator.remove();
-    
+
     if (result) {
-      let human = humanize(result.text, mode, result.source);
-      const advice = getContextualAdvice(text);
+      let human = humanize(result.text, mode, result.source);      const advice = getContextualAdvice(text);
       if (advice) human += '\n\n' + advice;
       const finalMsg = await tripleCheckAnswer(human, text, intent);
       addMessage(finalMsg, 'bot', true, 'text');
@@ -2105,102 +1779,56 @@ async function handleSend() {
     console.error('Handle error:', error);
     typingIndicator.remove();
     addMessage('Что-то пошло не так. Попробуй ещё раз?', 'bot', true, 'text');
-  }  
+  }
+
   isProcessing = false;
   sendBtn.disabled = false;
 }
 
-// ========== UI НАСТРОЕК ==========
-function updateLimitDisplay() {
-  if (userState.isPremium && checkSubscription()) {
-    limitHint.textContent = 'OnyX 3.1 · Premium активирован';
-  } else {
-    const left = Math.max(0, 10 - userState.requestsToday);
-    limitHint.textContent = 'OnyX 3.1 · Осталось запросов: ' + left + '/10';
-  }
-}
-
-function openSettings() {
-  document.getElementById('settingsModal').classList.add('show');
-  updateSubscriptionInfo();
-}
-
-function closeSettings() {
-  document.getElementById('settingsModal').classList.remove('show');
-}
-
-function updateSubscriptionInfo() {
-  const statusEl = document.getElementById('subscriptionStatus');
-  const requestsEl = document.getElementById('requestsLeft');
-  const expiryLabel = document.getElementById('expiryLabel');
-  const expiryDate = document.getElementById('expiryDate');
-  
-  if (userState.isPremium && checkSubscription()) {
-    const typeText = {
-      'permanent': 'Бессрочная подписка',
-      'year': 'Подписка на 1 год',
-      'month': 'Подписка на 1 месяц'
-    };
-    statusEl.textContent = typeText[userState.subscriptionType] || 'Активировано';
-    statusEl.style.color = '#4ade80';
-    requestsEl.style.display = 'none';
-    expiryLabel.style.display = 'block';
-    expiryDate.style.display = 'block';
-    expiryDate.textContent = new Date(userState.expiryDate).toLocaleDateString('ru-RU');
-  } else {
-    statusEl.textContent = 'Ограниченная версия (10 запросов/день)';
-    statusEl.style.color = '#ffcc00';
-    requestsEl.style.display = 'block';
-    requestsEl.textContent = Math.max(0, 10 - userState.requestsToday) + ' / 10';
-    expiryLabel.style.display = 'none';
-    expiryDate.style.display = 'none';
-  }}
-
-document.getElementById('settingsBtn').addEventListener('click', openSettings);
-document.getElementById('closeModal').addEventListener('click', closeSettings);
-overlay.addEventListener('click', closeSidebar);
-
-document.getElementById('activateBtn').addEventListener('click', function() {
-  const code = document.getElementById('activationCode').value.trim();
-  if (!code) {
-    alert('Введите код активации');
-    return;
-  }
-  const result = activateCode(code);
-  if (result.success) {
-    alert('✅ ' + result.message + '\nДействует до: ' + result.expiryDate);
-    updateSubscriptionInfo();
-    updateLimitDisplay();
-    document.getElementById('activationCode').value = '';
-  } else {
-    alert('❌ ' + result.message);
-  }
-});
-
+/* ========== ПРИВЯЗКА ОБРАБОТЧИКОВ ========== */
 sendBtn.addEventListener('click', handleSend);
+
 input.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     handleSend();
   }
 });
+
 input.addEventListener('input', function() {
   input.style.height = 'auto';
   input.style.height = Math.min(input.scrollHeight, 120) + 'px';
 });
 
-document.getElementById('openSidebar').addEventListener('click', openSidebar);
-document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
-document.getElementById('newChat').addEventListener('click', function() {
+openSidebarBtn.addEventListener('click', openSidebar);
+closeSidebarBtn.addEventListener('click', closeSidebar);
+overlay.addEventListener('click', closeSidebar);
+
+newChatBtn.addEventListener('click', function() {
   createChat(false);
   if (window.innerWidth < 1024) closeSidebar();
   input.focus();
 });
 
+settingsBtn.addEventListener('click', openSettings);
+closeModalBtn.addEventListener('click', closeSettings);
+activateBtn.addEventListener('click', activateCode);
+
+activationCodeInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    activateCode();
+  }
+});
+
+/* ========== ИНИЦИАЛИЗАЦИЯ ========== */
 loadUserState();
 loadChats();
 renderChatList();
 renderMessages();
 updateLimitDisplay();
+
+})();
 </script>
-</body></html>
+</body>
+  </html>
