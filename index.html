@@ -1,0 +1,3198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="OnyX AI - Продвинутая нейросеть с глубоким анализом намерений пользователя">
+<title>OnyX v7.0 ULTRA - Advanced AI Assistant</title>
+<style>
+/* ============================================
+   CORE STYLES & RESET
+   ============================================ */
+@font-face {
+  font-family: 'RobotronDotMatrix';
+  src: url('https://raw.githubusercontent.com/nzeemin/robotron-dotmatrix-font/master/robotronfontelit.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.19/files/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.19/files/jetbrains-mono-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+html, body { 
+  height: 100%; 
+  overflow: hidden; 
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'JetBrainsMono', 'RobotronDotMatrix', 'SF Mono', Menlo, Consolas, monospace;
+  background: #0a0a0a;
+  color: #e8e8e8;
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Animated Background Grid */
+body::before {
+  content: "";
+  position: fixed; 
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 24px 24px, 8px 8px;
+  background-position: 0 0, 4px 4px;
+  pointer-events: none;
+  z-index: 0;
+  animation: gridPulse 6s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}
+
+/* Ambient Glow Effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.03), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientRotate 30s linear infinite;
+}
+
+@keyframes ambientRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   SIDEBAR STYLES
+   ============================================ */
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  background: rgba(10, 10, 10, 0.98);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed;
+  top: 0; 
+  bottom: 0; 
+  left: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.sidebar.open { 
+  transform: translateX(0); 
+}
+
+.sidebar-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.5), transparent);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+}
+
+.sidebar-title {
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.sidebar-version {
+  font-size: 10px;
+  color: #00ff88;
+  margin-top: 2px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e8e8e8;
+  width: 36px; 
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.icon-btn:active { 
+  transform: scale(0.92); 
+}
+
+.new-chat {
+  margin: 16px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+}
+
+.new-chat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 255, 136, 0.5);
+}
+
+.new-chat:active { 
+  transform: translateY(0) scale(0.97); 
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px 20px;
+}
+
+.chat-list::-webkit-scrollbar { 
+  width: 6px; 
+}
+
+.chat-list::-webkit-scrollbar-track { 
+  background: rgba(255, 255, 255, 0.02); 
+  border-radius: 3px;
+}
+
+.chat-list::-webkit-scrollbar-thumb { 
+  background: rgba(255, 255, 255, 0.15); 
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.chat-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.chat-item {
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: #ccc;
+  margin-bottom: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.chat-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.chat-item.active {
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.chat-item .title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-item .del {
+  opacity: 0;
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.chat-item:hover .del { 
+  opacity: 1; 
+}
+
+.chat-item .del:hover {
+  color: #ff3b3b;
+  background: rgba(255, 59, 59, 0.15);
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, transparent, rgba(20, 20, 20, 0.5));
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00ff88;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #666;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.settings-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #888;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.settings-btn:active { 
+  transform: scale(0.98); 
+}
+
+.overlay {
+  position: fixed; 
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(6px);
+}
+
+.overlay.show { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+/* ============================================
+   MAIN APP CONTAINER
+   ============================================ */
+.app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  margin-left: 0;
+  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 768px) {
+  .app {
+    margin-left: 0;
+  }
+  .sidebar {
+    transform: translateX(0);
+    position: relative;
+  }
+  .overlay {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar:not(.open) {
+    transform: translateX(-100%);
+  }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 50;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.model-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.model-selector:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.model-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #00ff88;
+}
+
+.model-badge {
+  font-size: 10px;
+  background: rgba(0, 255, 136, 0.2);
+  color: #00ff88;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   CHAT CONTAINER
+   ============================================ */
+.chat-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.welcome-logo {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: #000;
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+  margin-bottom: 24px;
+  animation: welcomePulse 3s ease-in-out infinite;
+}
+
+@keyframes welcomePulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 100px rgba(0, 255, 136, 0.7);
+  }
+}
+
+.welcome-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  color: #888;
+  max-width: 500px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.suggestion-card {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+}
+
+.suggestion-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 255, 136, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.suggestion-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.suggestion-text {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+.suggestion-hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* ============================================
+   MESSAGE STYLES
+   ============================================ */
+.message {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.message.assistant .message-avatar {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  color: #000;
+}
+
+.message.user .message-avatar {
+  background: linear-gradient(135deg, #666, #444);
+  color: #fff;
+}
+
+.message-content {
+  flex: 1;
+  max-width: calc(100% - 56px);
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.message-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.message-time {
+  font-size: 11px;
+  color: #666;
+}
+
+.message-body {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #e8e8e8;
+}
+
+.message.user .message-body {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.2);
+}
+
+.message-body p {
+  margin-bottom: 12px;
+}
+
+.message-body p:last-child {
+  margin-bottom: 0;
+}
+
+.message-body strong {
+  color: #00ff88;
+  font-weight: 600;
+}
+
+.message-body em {
+  color: #aaa;
+  font-style: italic;
+}
+
+.message-body code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrainsMono', monospace;
+  font-size: 13px;
+  color: #00ff88;
+}
+
+.message-body pre {
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-family: 'JetBrainsMono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.message-body pre code {
+  background: transparent;
+  padding: 0;
+  color: #e8e8e8;
+}
+
+.message-body ul, .message-body ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.message-body li {
+  margin-bottom: 8px;
+}
+
+.message-body blockquote {
+  border-left: 3px solid #00ff88;
+  padding-left: 16px;
+  margin: 12px 0;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Product Card in Messages */
+.product-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.product-specs {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 12px;
+}
+
+.product-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00ff88;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #ffc107;
+}
+
+/* Code Block with Header */
+.code-block {
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-language {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.code-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.code-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #888;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.code-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.code-content {
+  padding: 16px;
+  overflow-x: auto;
+  font-family: 'JetBrainsMono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e8e8e8;
+}
+
+/* Thinking Process Visualization */
+.thinking-block {
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.thinking-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(0, 255, 136, 0.08);
+  border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.thinking-header:hover {
+  background: rgba(0, 255, 136, 0.12);
+}
+
+.thinking-icon {
+  font-size: 16px;
+  animation: thinkingSpin 2s linear infinite;
+}
+
+@keyframes thinkingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.thinking-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00ff88;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.thinking-content {
+  padding: 16px;
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.7;
+}
+
+.thinking-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.thinking-step:last-child {
+  margin-bottom: 0;
+}
+
+.step-number {
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 255, 136, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #00ff88;
+  flex-shrink: 0;
+}
+
+.step-text {
+  flex: 1;
+}
+
+/* ============================================
+   INPUT AREA
+   ============================================ */
+.input-area {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.input-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 12px 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-wrapper:focus-within {
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
+}
+
+.input-actions-left {
+  display: flex;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+.input-action-btn {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.input-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: none;
+  max-height: 200px;
+  min-height: 24px;
+}
+
+.input-field::placeholder {
+  color: #666;
+}
+
+.input-actions-right {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.send-btn {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.send-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
+}
+
+.send-btn:active {
+  transform: scale(0.95);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.input-hints {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.hint-chip {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hint-chip:hover {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.typing-indicator {
+  display: flex;
+  gap: 6px;
+  padding: 16px 20px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 40%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  20% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  position: relative;
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8e8e8;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Settings Form */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.form-select:focus {
+  border-color: rgba(0, 255, 136, 0.4);
+}
+
+.form-select option {
+  background: #0f0f0f;
+  color: #e8e8e8;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.toggle-switch.active {
+  background: rgba(0, 255, 136, 0.4);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-switch.active .toggle-knob {
+  transform: translateX(22px);
+  background: #00ff88;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 640px) {
+  .sidebar {
+    width: 280px;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .message {
+    gap: 12px;
+  }
+  
+  .message-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .input-wrapper {
+    padding: 10px 12px;
+  }
+  
+  .input-action-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .send-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* ============================================
+   SCROLLBAR STYLES
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.hidden {
+  display: none !important;
+}
+
+.text-green {
+  color: #00ff88;
+}
+
+.text-gray {
+  color: #888;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+.mb-4 { margin-bottom: 16px; }
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+</style>
+</head>
+<body>
+
+<!-- Overlay for mobile sidebar -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <div class="logo-icon">O</div>
+      <div>
+        <div class="sidebar-title">OnyX AI</div>
+        <div class="sidebar-version">v7.0 ULTRA</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="closeSidebar" title="Закрыть меню">✕</button>
+  </div>
+  
+  <button class="new-chat" id="newChatBtn">
+    <span>➕</span>
+    <span>Новый чат</span>
+  </button>
+  
+  <div class="chat-list" id="chatList">
+    <!-- Chat items will be inserted here -->
+  </div>
+  
+  <div class="sidebar-footer">
+    <div class="stats-container">
+      <div class="stat-box">
+        <div class="stat-value" id="totalChats">0</div>
+        <div class="stat-label">Чатов</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="totalMessages">0</div>
+        <div class="stat-label">Сообщений</div>
+      </div>
+    </div>
+    <button class="settings-btn" id="settingsBtn">
+      <span>⚙️</span>
+      <span>Настройки</span>
+    </button>
+  </div>
+</aside>
+
+<!-- Main App -->
+<main class="app">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="icon-btn menu-btn" id="menuBtn" title="Меню">☰</button>
+      <div class="model-selector">
+        <span class="model-name">OnyX v7.0</span>
+        <span class="model-badge">ULTRA</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="exportBtn" title="Экспорт чата">📤</button>
+      <button class="icon-btn" id="clearBtn" title="Очистить чат">🗑️</button>
+    </div>
+  </header>
+  
+  <!-- Chat Container -->
+  <div class="chat-container" id="chatContainer">
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-logo">O</div>
+      <h1 class="welcome-title">Добро пожаловать в OnyX</h1>
+      <p class="welcome-subtitle">
+        Продвинутая нейросеть с глубоким анализом намерений. 
+        Я могу помочь с программированием, поиском информации, рекомендациями и многим другим.
+      </p>
+      
+      <div class="suggestions-grid">
+        <div class="suggestion-card" data-suggestion="Посоветуй телефон до 30000 рублей">
+          <div class="suggestion-icon">📱</div>
+          <div class="suggestion-text">Посоветуй телефон до 30 000 ₽</div>
+          <div class="suggestion-hint">Рекомендации смартфонов</div>
+        </div>
+        
+        <div class="suggestion-card" data-suggestion="Ты умеешь программировать? Напиши пример кода">
+          <div class="suggestion-icon">💻</div>
+          <div class="suggestion-text">Напиши код на Python</div>
+          <div class="suggestion-hint">Генерация кода</div>
+        </div>
+        
+        <div class="suggestion-card" data-suggestion="Расскажи про искусственный интеллект">
+          <div class="suggestion-icon">🧠</div>
+          <div class="suggestion-text">Что такое ИИ?</div>
+          <div class="suggestion-hint">Научные объяснения</div>
+        </div>
+        
+        <div class="suggestion-card" data-suggestion="Помоги составить план тренировок на неделю">
+          <div class="suggestion-icon">💪</div>
+          <div class="suggestion-text">План тренировок</div>
+          <div class="suggestion-hint">Фитнес и здоровье</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Messages will be inserted here -->
+    <div id="messagesContainer"></div>
+  </div>
+  
+  <!-- Input Area -->
+  <div class="input-area">
+    <div class="input-container">
+      <div class="input-wrapper">
+        <div class="input-actions-left">
+          <button class="input-action-btn" id="attachBtn" title="Прикрепить файл">📎</button>
+          <button class="input-action-btn" id="voiceBtn" title="Голосовой ввод">🎤</button>
+        </div>
+        
+        <textarea 
+          class="input-field" 
+          id="userInput" 
+          placeholder="Спросите меня о чём угодно..."
+          rows="1"
+        ></textarea>
+        
+        <div class="input-actions-right">
+          <button class="send-btn" id="sendBtn" title="Отправить">➤</button>
+        </div>
+      </div>
+      
+      <div class="input-hints">
+        <span class="hint-chip" data-hint="Посоветуй ноутбук для работы">💼 Ноутбук</span>
+        <span class="hint-chip" data-hint="Как выучить английский?">📚 Английский</span>
+        <span class="hint-chip" data-hint="Напиши калькулятор на JavaScript">🧮 Код</span>
+        <span class="hint-chip" data-hint="Что посмотреть вечером?">🎬 Фильмы</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Settings Modal -->
+<div class="modal" id="settingsModal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Настройки OnyX</h2>
+      <button class="modal-close" id="closeSettings">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Имя пользователя</label>
+        <input type="text" class="form-input" id="userNameInput" placeholder="Ваше имя">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Тема оформления</label>
+        <select class="form-select" id="themeSelect">
+          <option value="dark">Тёмная (по умолчанию)</option>
+          <option value="light">Светлая</option>
+          <option value="cyber">Киберпанк</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Язык интерфейса</label>
+        <select class="form-select" id="languageSelect">
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      
+      <div class="toggle-row">
+        <span class="toggle-label">Показывать процесс мышления</span>
+        <div class="toggle-switch active" id="thinkingToggle">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+      
+      <div class="toggle-row">
+        <span class="toggle-label">Автоматический поиск в интернете</span>
+        <div class="toggle-switch active" id="searchToggle">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+      
+      <div class="toggle-row">
+        <span class="toggle-label">Звуковые уведомления</span>
+        <div class="toggle-switch" id="soundToggle">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="resetSettings">Сбросить</button>
+      <button class="btn btn-primary" id="saveSettings">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal" id="exportModal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Экспорт чата</h2>
+      <button class="modal-close" id="closeExport">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Формат экспорта</label>
+        <select class="form-select" id="exportFormat">
+          <option value="txt">Текстовый файл (.txt)</option>
+          <option value="json">JSON (.json)</option>
+          <option value="html">HTML страница</option>
+          <option value="markdown">Markdown (.md)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Имя файла</label>
+        <input type="text" class="form-input" id="exportFilename" value="chat_export">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelExport">Отмена</button>
+      <button class="btn btn-primary" id="confirmExport">Экспортировать</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * =============================================================================
+ * OnyX v7.0 ULTRA - Advanced AI Assistant
+ * =============================================================================
+ * Features:
+ * - Deep intent analysis with entity extraction
+ * - Extensive knowledge base (products, facts, code templates)
+ * - Smart web search integration
+ * - Context-aware responses
+ * - Math expression evaluation
+ * - Code generation with syntax highlighting
+ * - Chat history management
+ * - Settings persistence
+ * =============================================================================
+ */
+
+// ============================================
+// KNOWLEDGE BASE - EXTENDED DATABASE
+// ============================================
+const KnowledgeBase = {
+  // Smartphones database
+  smartphones: [
+    {
+      name: "Xiaomi Redmi Note 12",
+      price: 17990,
+      specs: "6.67\" AMOLED, 4GB/128GB, 50MP камера, 5000mAh",
+      rating: 4.5,
+      pros: ["Отличный экран", "Быстрая зарядка", "Хорошая камера"],
+      cons: ["Пластиковый корпус"]
+    },
+    {
+      name: "Samsung Galaxy A34",
+      price: 29990,
+      specs: "6.6\" Super AMOLED, 6GB/128GB, 48MP, 5000mAh",
+      rating: 4.6,
+      pros: ["Защита IP67", "Долгая поддержка", "Качественный экран"],
+      cons: ["Медленная зарядка"]
+    },
+    {
+      name: "Realme 11 Pro",
+      price: 26990,
+      specs: "6.7\" AMOLED, 8GB/256GB, 100MP, 5000mAh",
+      rating: 4.4,
+      pros: ["Много памяти", "Быстрая зарядка 67W", "Дизайн"],
+      cons: ["Нет стабилизации видео"]
+    },
+    {
+      name: "POCO X5 Pro",
+      price: 24990,
+      specs: "6.67\" AMOLED, 6GB/128GB, 108MP, 5000mAh",
+      rating: 4.3,
+      pros: ["Производительность", "Экран 120Hz", "Цена/качество"],
+      cons: ["Много рекламы в MIUI"]
+    },
+    {
+      name: "Honor X9a",
+      price: 27990,
+      specs: "6.67\" AMOLED, 8GB/128GB, 64MP, 5100mAh",
+      rating: 4.5,
+      pros: ["Прочный экран", "Тонкий корпус", "Автономность"],
+      cons: ["Нет ультраширика"]
+    },
+    {
+      name: "Xiaomi Poco M6 Pro",
+      price: 19990,
+      specs: "6.67\" AMOLED, 8GB/256GB, 64MP, 5000mAh",
+      rating: 4.4,
+      pros: ["Много памяти за цену", "Быстрая зарядка", "Стереодинамики"],
+      cons: ["Камера средняя"]
+    },
+    {
+      name: "Samsung Galaxy A25",
+      price: 24990,
+      specs: "6.5\" Super AMOLED, 6GB/128GB, 50MP, 5000mAh",
+      rating: 4.3,
+      pros: ["Экран 120Hz", "NFC", "Долгая поддержка"],
+      cons: ["Нет зарядки в комплекте"]
+    },
+    {
+      name: "Realme C67",
+      price: 16990,
+      specs: "6.72\" IPS, 8GB/128GB, 108MP, 5000mAh",
+      rating: 4.2,
+      pros: ["Цена", "Много памяти", "Хорошая камера"],
+      cons: ["IPS вместо AMOLED"]
+    }
+  ],
+
+  // Laptops database
+  laptops: [
+    {
+      name: "HUAWEI MateBook D15",
+      price: 49990,
+      specs: "15.6\" FHD, Intel i5-1135G7, 8GB RAM, 512GB SSD",
+      rating: 4.4,
+      category: "office"
+    },
+    {
+      name: "ASUS Vivobook 15",
+      price: 45990,
+      specs: "15.6\" FHD, AMD Ryzen 5 5500U, 8GB RAM, 512GB SSD",
+      rating: 4.3,
+      category: "office"
+    },
+    {
+      name: "Lenovo IdeaPad Gaming 3",
+      price: 69990,
+      specs: "15.6\" FHD 120Hz, AMD Ryzen 5 5600H, GTX 1650, 8GB, 512GB",
+      rating: 4.5,
+      category: "gaming"
+    },
+    {
+      name: "MSI GF63 Thin",
+      price: 64990,
+      specs: "15.6\" FHD, Intel i5-11400H, GTX 1650, 8GB, 512GB",
+      rating: 4.2,
+      category: "gaming"
+    },
+    {
+      name: "Apple MacBook Air M1",
+      price: 89990,
+      specs: "13.3\" Retina, Apple M1, 8GB RAM, 256GB SSD",
+      rating: 4.8,
+      category: "premium"
+    },
+    {
+      name: "ASUS ROG Strix G15",
+      price: 99990,
+      specs: "15.6\" FHD 144Hz, AMD Ryzen 7 5800H, RTX 3060, 16GB, 512GB",
+      rating: 4.7,
+      category: "gaming"
+    }
+  ],
+
+  // Scientific facts
+  science: {
+    physics: [
+      { q: "что такое черная дыра", a: "Чёрная дыра — это область пространства-времени с настолько сильным гравитационным притяжением, что даже свет не может её покинуть. Образуется при коллапсе массивных звёзд." },
+      { q: "что такое квантовая механика", a: "Квантовая механика — раздел физики, изучающий поведение частиц на атомном и субатомном уровне. Основные принципы: суперпозиция, квантование энергии, неопределённость." },
+      { q: "скорость света", a: "Скорость света в вакууме составляет точно 299 792 458 м/с (около 300 000 км/с). Это максимально возможная скорость распространения информации во Вселенной." },
+      { q: "что такое гравитация", a: "Гравитация — фундаментальное взаимодействие, вызывающее притяжение между всеми объектами, имеющими массу. Описана Ньютоном и уточнена Эйнштейном в ОТО." }
+    ],
+    biology: [
+      { q: "что такое днк", a: "ДНК (дезоксирибонуклеиновая кислота) — молекула, хранящая генетическую информацию всех живых организмов. Состоит из двух цепей, закрученных в двойную спираль." },
+      { q: "сколько хромосом у человека", a: "У человека 46 хромосом (23 пары): 22 пары аутосом и 1 пара половых хромосом (XX у женщин, XY у мужчин)." },
+      { q: "что такое фотосинтез", a: "Фотосинтез — процесс преобразования растениями солнечной энергии в химическую. Происходит в хлоропластах с участием хлорофилла. Уравнение: 6CO₂ + 6H₂O + свет → C₆H₁₂O₆ + 6O₂" }
+    ],
+    astronomy: [
+      { q: "сколько планет в солнечной системе", a: "В Солнечной системе 8 планет: Меркурий, Венера, Земля, Марс, Юпитер, Сатурн, Уран, Нептун. Плутон считается карликовой планетой с 2006 года." },
+      { q: "что такое млечный путь", a: "Млечный Путь — наша галактика, спиральная галактика с перемычкой диаметром около 100 000 световых лет. Содержит 100-400 миллиардов звёзд." },
+      { q: "самая большая планета", a: "Юпитер — самая большая планета Солнечной системы. Его масса в 2.5 раза больше всех остальных планет вместе взятых. Диаметр: 139 820 км." }
+    ],
+    chemistry: [
+      { q: "что такое вода формула", a: "Химическая формула воды — H₂O. Молекула состоит из двух атомов водорода и одного атома кислорода, соединённых ковалентными связями." },
+      { q: "что такое ph", a: "pH — мера кислотности или щёлочности раствора. Шкала от 0 до 14: pH < 7 — кислота, pH = 7 — нейтрально, pH > 7 — щёлочь." }
+    ]
+  },
+
+  // Programming knowledge
+  programming: {
+    languages: {
+      python: {
+        description: "Python — высокоуровневый язык программирования общего назначения. Идеален для начинающих, Data Science, веб-разработки и автоматизации.",
+        helloWorld: `print("Hello, World!")`,
+        calculator: `def calculator():
+    print("Простой калькулятор")
+    
+    while True:
+        operation = input("Выберите операцию (+, -, *, /) или 'q' для выхода: ")
+        
+        if operation == 'q':
+            break
+        
+        try:
+            num1 = float(input("Первое число: "))
+            num2 = float(input("Второе число: "))
+            
+            if operation == '+':
+                result = num1 + num2
+            elif operation == '-':
+                result = num1 - num2
+            elif operation == '*':
+                result = num1 * num2
+            elif operation == '/':
+                if num2 != 0:
+                    result = num1 / num2
+                else:
+                    print("Ошибка: деление на ноль!")
+                    continue
+            else:
+                print("Неверная операция!")
+                continue
+            
+            print(f"Результат: {result}")
+        except ValueError:
+            print("Ошибка: введите число!")
+
+calculator()`,
+        webScraper: `import requests
+from bs4 import BeautifulSoup
+
+url = "https://example.com"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Найти все заголовки
+headings = soup.find_all(['h1', 'h2', 'h3'])
+for h in headings:
+    print(h.text.strip())`
+      },
+      javascript: {
+        description: "JavaScript — язык программирования для веба. Работает в браузере и на сервере (Node.js). Используется для интерактивности и fullstack-разработки.",
+        helloWorld: `console.log("Hello, World!");`,
+        calculator: `class Calculator {
+  add(a, b) { return a + b; }
+  subtract(a, b) { return a - b; }
+  multiply(a, b) { return a * b; }
+  divide(a, b) {
+    if (b === 0) throw new Error("Деление на ноль!");
+    return a / b;
+  }
+}
+
+const calc = new Calculator();
+console.log(calc.add(5, 3)); // 8`,
+        domManipulation: `// Работа с DOM
+const button = document.querySelector('#myButton');
+const output = document.querySelector('#output');
+
+button.addEventListener('click', () => {
+  output.textContent = 'Кнопка нажата!';
+  output.style.color = '#00ff88';
+});
+
+// Создание элементов
+const newItem = document.createElement('li');
+newItem.textContent = 'Новый элемент';
+document.querySelector('ul').appendChild(newItem);`
+      },
+      html: {
+        description: "HTML — язык разметки для создания структуры веб-страниц. Основа любого сайта.",
+        template: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моя страница</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section id="hero">
+      <h1>Добро пожаловать!</h1>
+      <p>Это моя первая страница</p>
+      <button>Нажми меня</button>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2024 Моя компания</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>`
+      },
+      css: {
+        description: "CSS — язык стилей для оформления веб-страниц. Определяет внешний вид HTML-элементов.",
+        example: `/* Современные CSS стили */
+:root {
+  --primary-color: #00ff88;
+  --bg-color: #0a0a0a;
+  --text-color: #e8e8e8;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.button {
+  background: linear-gradient(135deg, var(--primary-color), #00cc6a);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 255, 136, 0.4);
+}`
+      }
+    },
+    frameworks: {
+      react: "React — библиотека JavaScript для создания пользовательских интерфейсов. Использует компонентный подход и виртуальный DOM.",
+      vue: "Vue.js — прогрессивный фреймворк для создания UI. Прост в освоении, гибкий и производительный.",
+      angular: "Angular — полноценный фреймворк от Google для создания сложных веб-приложений. Использует TypeScript.",
+      nodejs: "Node.js — среда выполнения JavaScript на сервере. Позволяет использовать JS для backend-разработки.",
+      django: "Django — высокоуровневый Python-фреймворк для быстрой разработки безопасных веб-приложений.",
+      flask: "Flask — лёгкий микрофреймворк на Python для создания веб-приложений и API."
+    }
+  },
+
+  // General knowledge
+  general: {
+    greetings: [
+      "Привет! Я OnyX, ваш интеллектуальный помощник. Чем могу помочь?",
+      "Здравствуйте! Готов ответить на ваши вопросы или помочь с задачей.",
+      "Добро пожаловать! Что вас интересует сегодня?",
+      "Рад видеть вас! Задавайте любые вопросы — от простых до сложных.",
+      "Приветствую! Я здесь, чтобы помочь с информацией, кодом или советами."
+    ],
+    farewells: [
+      "До свидания! Возвращайтесь, если понадобятся ответы.",
+      "Всего доброго! Был рад помочь.",
+      "Удачи! Обращайтесь в любое время.",
+      "До встречи! Надеюсь, информация была полезна.",
+      "Счастливого дня! Я всегда на связи."
+    ],
+    capabilities: [
+      "Я умею:\n• Отвечать на вопросы по науке, технике, истории\n• Рекомендовать товары (телефоны, ноутбуки и др.)\n• Писать код на Python, JavaScript, HTML/CSS\n• Решать математические задачи\n• Искать информацию в интернете\n• Давать советы по здоровью, продуктивности, финансам\n• Анализировать текст и определять намерения",
+      "Мои возможности включают:\n📚 Огромная база знаний\n💻 Генерация кода\n🔍 Умный поиск\n📊 Анализ данных\n💡 Персональные рекомендации"
+    ]
+  },
+
+  // Advice categories
+  advice: {
+    health: [
+      "Для улучшения сна: ложитесь в одно и то же время, избегайте экранов за 2 часа до сна, поддерживайте температуру 18-20°C.",
+      "Пейте 1.5-2 литра воды в день. Начните утро со стакана воды для запуска метаболизма.",
+      "Физическая активность: минимум 150 минут умеренных упражнений в неделю. Ходьба, бег, плавание — выбирайте по вкусу."
+    ],
+    productivity: [
+      "Метод Помодоро: 25 минут работы + 5 минут отдыха. После 4 циклов — длинный перерыв 15-30 минут.",
+      "Правило 2 минут: если задача занимает меньше 2 минут — сделайте её немедленно.",
+      "Планируйте 3 главных задачи на день. Фокусируйтесь на них в первую очередь."
+    ],
+    finance: [
+      "Правило 50/30/20: 50% дохода на necessities, 30% на желания, 20% на сбережения и долги.",
+      "Создайте emergency fund — резерв на 3-6 месяцев расходов.",
+      "Инвестируйте регулярно, даже небольшие суммы. Сложный процент работает на вас."
+    ],
+    learning: [
+      "Практикуйте активное вспоминание: закрывайте материал и пытайтесь воспроизвести его по памяти.",
+      "Интервальное повторение: повторяйте материал через увеличивающиеся промежутки времени.",
+      "Обучайте других — лучший способ закрепить знания самому."
+    ],
+    relationships: [
+      "Активное слушание: фокусируйтесь на собеседнике, задавайте уточняющие вопросы, не перебивайте.",
+      "Выражайте благодарность регулярно. Маленькие знаки внимания укрепляют отношения.",
+      "Устанавливайте здоровые границы — это важно для любых отношений."
+    ]
+  },
+
+  // Movie recommendations
+  movies: {
+    action: ["Матрица", "Джон Уик", "Безумный Макс: Дорога ярости", "Начало", "Тёмный рыцарь"],
+    drama: ["Побег из Шоушенка", "Зелёная миля", "Форрест Гамп", "1+1", "Паразиты"],
+    scifi: ["Интерстеллар", "Прибытие", "Бегущий по лезвию 2049", "Дюна", "Гравитация"],
+    comedy: ["1+1", "День сурка", "Большой Лебовски", "Типа крутые легавые", "Re:Love"],
+    horror: ["Сияние", "Чужой", "Наследственное", "Прочь", "Тихое место"]
+  },
+
+  // Book recommendations
+  books: {
+    fiction: ["1984 (Оруэлл)", "Преступление и наказание (Достоевский)", "Мастер и Маргарита (Булгаков)", "Гарри Поттер (Роулинг)"],
+    nonfiction: ["Sapiens (Харари)", "Атомные привычки (Клир)", "Думай медленно... (Канеман)", "Краткая история времени (Хокинг)"],
+    business: ["Богатый папа... (Кийосаки)", "Думай и богатей (Хилл)", "7 навыков (Кови)", "Lean Startup (Рис)"]
+  }
+};
+
+// ============================================
+// INTENT ANALYSIS ENGINE
+// ============================================
+class IntentAnalyzer {
+  constructor() {
+    this.intents = {
+      greeting: {
+        patterns: ['привет', 'здравствуй', 'добрый день', 'доброе утро', 'добрый вечер', 'хай', 'hello', 'hi', 'hey'],
+        handler: this.handleGreeting
+      },
+      farewell: {
+        patterns: ['пока', 'до свидания', 'увидимся', 'прощай', 'bye', 'goodbye'],
+        handler: this.handleFarewell
+      },
+      productRecommendation: {
+        patterns: ['посоветуй', 'рекомендуй', 'какой выбрать', 'что купить', 'подбери', 'предложи'],
+        keywords: ['телефон', 'смартфон', 'ноутбук', 'компьютер', 'планшет', 'наушники', 'часы'],
+        handler: this.handleProductRecommendation
+      },
+      coding: {
+        patterns: ['напиши код', 'создай программу', 'напиши скрипт', 'как сделать', 'код для', 'пример кода', 'функция'],
+        keywords: ['python', 'javascript', 'html', 'css', 'java', 'c++', 'react', 'vue'],
+        handler: this.handleCoding
+      },
+      math: {
+        patterns: ['посчитай', 'вычисли', 'реши', 'сколько будет', 'математика', 'пример'],
+        regex: /[\d\.\+\-\*\/\(\)]+/,
+        handler: this.handleMath
+      },
+      science: {
+        patterns: ['что такое', 'расскажи про', 'объясни', 'как работает', 'почему', 'кто такой'],
+        keywords: ['физика', 'химия', 'биология', 'астрономия', 'космос', 'планета', 'звезда'],
+        handler: this.handleScience
+      },
+      advice: {
+        patterns: ['как улучшить', 'совет', 'помоги', 'что делать', 'рекомендация', 'подскажи'],
+        keywords: ['сон', 'работа', 'учёба', 'спорт', 'здоровье', 'финансы', 'отношения'],
+        handler: this.handleAdvice
+      },
+      movie: {
+        patterns: ['что посмотреть', 'фильм', 'кино', 'сериал', 'рекомендуй фильм'],
+        handler: this.handleMovie
+      },
+      book: {
+        patterns: ['что почитать', 'книга', 'порекомендуй книгу', 'литература'],
+        handler: this.handleBook
+      },
+      capability: {
+        patterns: ['ты умеешь', 'что ты можешь', 'твои возможности', 'как ты работаешь', 'кто ты'],
+        handler: this.handleCapability
+      },
+      thanks: {
+        patterns: ['спасибо', 'благодарю', 'thank you', 'thanks'],
+        handler: this.handleThanks
+      }
+    };
+  }
+
+  analyze(text) {
+    const lowerText = text.toLowerCase();
+    const results = [];
+
+    // Check each intent
+    for (const [intentName, intentData] of Object.entries(this.intents)) {
+      let score = 0;
+      const details = { intent: intentName, confidence: 0, entities: [] };
+
+      // Pattern matching
+      if (intentData.patterns) {
+        for (const pattern of intentData.patterns) {
+          if (lowerText.includes(pattern)) {
+            score += 2;
+            details.entities.push({ type: 'pattern', value: pattern });
+          }
+        }
+      }
+
+      // Keyword matching
+      if (intentData.keywords) {
+        for (const keyword of intentData.keywords) {
+          if (lowerText.includes(keyword)) {
+            score += 1.5;
+            details.entities.push({ type: 'keyword', value: keyword });
+          }
+        }
+      }
+
+      // Regex matching
+      if (intentData.regex) {
+        const match = lowerText.match(intentData.regex);
+        if (match) {
+          score += 3;
+          details.entities.push({ type: 'regex', value: match[0] });
+        }
+      }
+
+      // Entity extraction for products
+      if (intentName === 'productRecommendation') {
+        // Extract budget
+        const budgetMatch = text.match(/(?:до|до\s+)?(\d+)\s*(?:тыс\.?|тысяч|рублей?|₽|р\.?)/i);
+        if (budgetMatch) {
+          let budget = parseInt(budgetMatch[1]);
+          if (budgetMatch[0].includes('тыс')) {
+            budget *= 1000;
+          }
+          details.entities.push({ type: 'budget', value: budget, raw: budgetMatch[0] });
+          score += 2;
+        }
+
+        // Extract product category
+        const categories = ['телефон', 'смартфон', 'ноутбук', 'компьютер', 'планшет', 'наушники'];
+        for (const cat of categories) {
+          if (lowerText.includes(cat)) {
+            details.entities.push({ type: 'category', value: cat });
+          }
+        }
+      }
+
+      // Extract programming language
+      if (intentName === 'coding') {
+        const languages = ['python', 'javascript', 'js', 'html', 'css', 'java', 'c++', 'cpp', 'react', 'vue', 'node'];
+        for (const lang of languages) {
+          if (lowerText.includes(lang)) {
+            details.entities.push({ type: 'language', value: lang });
+          }
+        }
+      }
+
+      if (score > 0) {
+        details.confidence = Math.min(score / 5, 1); // Normalize to 0-1
+        results.push(details);
+      }
+    }
+
+    // Sort by confidence
+    results.sort((a, b) => b.confidence - a.confidence);
+
+    return results.length > 0 ? results[0] : { intent: 'unknown', confidence: 0, entities: [] };
+  }
+
+  handleGreeting(context) {
+    const responses = KnowledgeBase.general.greetings;
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  handleFarewell(context) {
+    const responses = KnowledgeBase.general.farewells;
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  handleProductRecommendation(context) {
+    const { entities } = context;
+    const budgetEntity = entities.find(e => e.type === 'budget');
+    const categoryEntity = entities.find(e => e.type === 'category');
+
+    if (!categoryEntity) {
+      return "Какой именно товар вас интересует? Телефон, ноутбук, планшет?";
+    }
+
+    const category = categoryEntity.value;
+    let products = [];
+
+    if (['телефон', 'смартфон'].includes(category)) {
+      products = KnowledgeBase.smartphones;
+    } else if (category === 'ноутбук') {
+      products = KnowledgeBase.laptops;
+    }
+
+    if (products.length === 0) {
+      return `К сожалению, у меня пока нет информации о ${category}. Но я могу рассказать о телефонах или ноутбуках!`;
+    }
+
+    // Filter by budget if specified
+    if (budgetEntity) {
+      const maxBudget = budgetEntity.value;
+      products = products.filter(p => p.price <= maxBudget);
+    }
+
+    if (products.length === 0) {
+      return `В заданном бюджете (${budgetEntity?.value || 'не указан'} ₽) ничего не найдено. Может, рассмотреть другие варианты?`;
+    }
+
+    // Sort by rating and take top 3
+    products.sort((a, b) => b.rating - a.rating);
+    const topProducts = products.slice(0, 3);
+
+    let response = `🏆 **Топ-${topProducts.length} ${category === 'ноутбук' ? 'ноутбуков' : 'смартфонов'}**:\n\n`;
+
+    topProducts.forEach((product, index) => {
+      response += `${index + 1}. **${product.name}**\n`;
+      response += `   💰 ${product.price.toLocaleString()} ₽\n`;
+      response += `   📋 ${product.specs}\n`;
+      response += `   ⭐ Рейтинг: ${product.rating}/5\n`;
+      if (product.pros) {
+        response += `   ✅ ${product.pros.join(', ')}\n`;
+      }
+      response += '\n';
+    });
+
+    response += `\n💡 *Хотите узнать подробности о конкретной модели?*`;
+
+    return response;
+  }
+
+  handleCoding(context) {
+    const { entities } = context;
+    const langEntity = entities.find(e => e.type === 'language');
+
+    let language = 'python'; // default
+    if (langEntity) {
+      language = langEntity.value.toLowerCase();
+    }
+
+    // Map language aliases
+    const langMap = {
+      'js': 'javascript',
+      'cpp': 'c++',
+      'py': 'python'
+    };
+    language = langMap[language] || language;
+
+    const langData = KnowledgeBase.programming.languages[language];
+
+    if (!langData) {
+      return `Я знаю следующие языки: ${Object.keys(KnowledgeBase.programming.languages).join(', ')}. Какой вам нужен?`;
+    }
+
+    let response = `💻 **${language.charAt(0).toUpperCase() + language.slice(1)}**\n\n`;
+    response += `${langData.description}\n\n`;
+
+    // Determine what code to show based on query
+    const lowerQuery = context.query.toLowerCase();
+
+    if (lowerQuery.includes('калькулятор')) {
+      response += `**Пример: Калькулятор**\n`;
+      response += '```' + language + '\n' + (langData.calculator || langData.helloWorld) + '\n```';
+    } else if (lowerQuery.includes('веб') || lowerQuery.includes('сайт')) {
+      if (language === 'html') {
+        response += `**Пример: HTML шаблон**\n`;
+        response += '```html\n' + langData.template + '\n```';
+      } else if (language === 'css') {
+        response += `**Пример: CSS стили**\n`;
+        response += '```css\n' + langData.example + '\n```';
+      } else if (language === 'javascript') {
+        response += `**Пример: Работа с DOM**\n`;
+        response += '```javascript\n' + langData.domManipulation + '\n```';
+      }
+    } else if (lowerQuery.includes('парс') || lowerQuery.includes('скрап')) {
+      if (language === 'python' && langData.webScraper) {
+        response += `**Пример: Веб-скрапер**\n`;
+        response += '```python\n' + langData.webScraper + '\n```';
+      }
+    } else {
+      response += `**Пример: Hello World**\n`;
+      response += '```' + language + '\n' + langData.helloWorld + '\n```';
+    }
+
+    response += `\n\n💡 *Нужен код для конкретной задачи? Опишите её подробнее!*`;
+
+    return response;
+  }
+
+  handleMath(context) {
+    const { entities } = context;
+    const regexEntity = entities.find(e => e.type === 'regex');
+
+    if (!regexEntity) {
+      return "Пожалуйста, введите математическое выражение для вычисления.";
+    }
+
+    try {
+      // Safe evaluation
+      const expression = regexEntity.value;
+      
+      // Validate expression
+      if (!/^[\d\.\+\-\*\/\(\)\s]+$/.test(expression)) {
+        return "Неверное выражение. Используйте только цифры и операторы: +, -, *, /, (, )";
+      }
+
+      // Evaluate safely
+      const result = Function('"use strict";return (' + expression + ')')();
+      
+      return `📊 **Результат:**\n\n\`${expression}\` = **${result}**`;
+    } catch (error) {
+      return "Ошибка вычисления. Проверьте правильность выражения.";
+    }
+  }
+
+  handleScience(context) {
+    const { query } = context;
+    const lowerQuery = query.toLowerCase();
+
+    // Search through all science categories
+    for (const [category, facts] of Object.entries(KnowledgeBase.science)) {
+      for (const fact of facts) {
+        if (lowerQuery.includes(fact.q) || fact.q.split(' ').some(word => word.length > 3 && lowerQuery.includes(word))) {
+          return `🔬 **${category.charAt(0).toUpperCase() + category.slice(1)}**\n\n${fact.a}`;
+        }
+      }
+    }
+
+    // If no exact match, try to provide general answer
+    return `Интересный вопрос! 🔍\n\nУ меня есть информация по темам:\n• Физика (чёрные дыры, квантовая механика, гравитация)\n• Биология (ДНК, хромосомы, фотосинтез)\n• Астрономия (планеты, галактики)\n• Химия (формулы, pH)\n\nУточните вопрос, и я дам развёрнутый ответ!`;
+  }
+
+  handleAdvice(context) {
+    const { entities } = context;
+    const lowerQuery = context.query.toLowerCase();
+
+    // Determine category
+    let category = null;
+    const categories = {
+      health: ['сон', 'здоровье', 'спорт', 'физический', 'упражнение', 'вода'],
+      productivity: ['работа', 'учёба', 'продуктив', 'время', 'задача', 'фокус'],
+      finance: ['финанс', 'деньг', 'зарплат', 'инвест', 'эконом', 'бюджет'],
+      learning: ['учеб', 'знани', 'изуч', 'помнить', 'запомн'],
+      relationships: ['отношени', 'друг', 'семь', 'общени', 'слуш']
+    };
+
+    for (const [cat, keywords] of Object.entries(categories)) {
+      for (const keyword of keywords) {
+        if (lowerQuery.includes(keyword)) {
+          category = cat;
+          break;
+        }
+      }
+      if (category) break;
+    }
+
+    if (!category) {
+      return `💡 Я могу дать советы по темам:\n\n• Здоровье и спорт\n• Продуктивность и тайм-менеджмент\n• Финансы и инвестиции\n• Обучение и запоминание\n• Отношения и общение\n\nОпишите вашу ситуацию подробнее!`;
+    }
+
+    const advices = KnowledgeBase.advice[category];
+    const randomAdvice = advices[Math.floor(Math.random() * advices.length)];
+
+    const categoryNames = {
+      health: '🏥 Здоровье',
+      productivity: '⚡ Продуктивность',
+      finance: '💰 Финансы',
+      learning: '📚 Обучение',
+      relationships: '🤝 Отношения'
+    };
+
+    return `${categoryNames[category]}\n\n${randomAdvice}`;
+  }
+
+  handleMovie(context) {
+    const lowerQuery = context.query.toLowerCase();
+    
+    // Detect genre
+    let genre = null;
+    const genres = {
+      action: ['боевик', 'экшн', 'драки', 'стрельба'],
+      drama: ['драма', 'груст', 'серьёз'],
+      scifi: ['фантастик', 'космос', 'будущ', 'наук'],
+      comedy: ['комеди', 'смеш', 'юмор', 'прикол'],
+      horror: ['ужас', 'хоррор', 'страш', 'крип']
+    };
+
+    for (const [g, keywords] of Object.entries(genres)) {
+      for (const keyword of keywords) {
+        if (lowerQuery.includes(keyword)) {
+          genre = g;
+          break;
+        }
+      }
+      if (genre) break;
+    }
+
+    if (!genre) {
+      // Return mixed recommendations
+      let response = "🎬 **Что посмотреть?**\n\n";
+      for (const [g, movies] of Object.entries(KnowledgeBase.movies)) {
+        const genreNames = {
+          action: 'Боевики',
+          drama: 'Драмы',
+          scifi: 'Фантастика',
+          comedy: 'Комедии',
+          horror: 'Ужасы'
+        };
+        response += `**${genreNames[g]}:** ${movies.slice(0, 3).join(', ')}\n\n`;
+      }
+      return response + "*Укажите жанр для более точных рекомендаций!*";
+    }
+
+    const genreNames = {
+      action: 'Боевики',
+      drama: 'Драмы',
+      scifi: 'Научная фантастика',
+      comedy: 'Комедии',
+      horror: 'Ужасы'
+    };
+
+    const movies = KnowledgeBase.movies[genre];
+    return `🎬 **${genreNames[genre]}**\n\n` + movies.map((m, i) => `${i + 1}. ${m}`).join('\n') + "\n\nПриятного просмотра! 🍿";
+  }
+
+  handleBook(context) {
+    const lowerQuery = context.query.toLowerCase();
+    
+    let category = null;
+    if (lowerQuery.includes('бизнес') || lowerQuery.includes('деньг') || lowerQuery.includes('успех')) {
+      category = 'business';
+    } else if (lowerQuery.includes('наук') || lowerQuery.includes('психолог') || lowerQuery.includes('реальн')) {
+      category = 'nonfiction';
+    } else {
+      category = 'fiction';
+    }
+
+    const books = KnowledgeBase.books[category];
+    const categoryNames = {
+      fiction: '📖 Художественная литература',
+      nonfiction: '📚 Научно-популярные книги',
+      business: '💼 Бизнес и саморазвитие'
+    };
+
+    return `${categoryNames[category]}\n\n` + books.map((b, i) => `${i + 1}. ${b}`).join('\n') + "\n\n📚 Приятного чтения!";
+  }
+
+  handleCapability(context) {
+    const responses = KnowledgeBase.general.capabilities;
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  handleThanks(context) {
+    const responses = [
+      "Всегда пожалуйста! 😊",
+      "Рад был помочь!",
+      "Обращайтесь ещё!",
+      "Не за что! Если будут вопросы — я здесь.",
+      "Пожалуйста! Хорошего дня! ✨"
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+}
+
+// ============================================
+// SEARCH ENGINE INTEGRATION
+// ============================================
+class SearchEngine {
+  constructor() {
+    this.providers = {
+      duckduckgo: 'https://duckduckgo.com/?q=',
+      google: 'https://www.google.com/search?q=',
+      wikipedia: 'https://ru.wikipedia.org/wiki/'
+    };
+  }
+
+  generateSearchUrl(query, provider = 'duckduckgo') {
+    const encodedQuery = encodeURIComponent(query);
+    return this.providers[provider] + encodedQuery;
+  }
+
+  async searchWeb(query) {
+    // In a real implementation, this would use an API
+    // For now, we return search URLs for the user
+    return {
+      query: query,
+      urls: {
+        duckduckgo: this.generateSearchUrl(query, 'duckduckgo'),
+        google: this.generateSearchUrl(query, 'google'),
+        wikipedia: this.generateSearchUrl(query.replace(/\s+/g, '_'), 'wikipedia')
+      }
+    };
+  }
+}
+
+// ============================================
+// THINKING PROCESS VISUALIZER
+// ============================================
+class ThinkingVisualizer {
+  constructor() {
+    this.steps = [];
+  }
+
+  startAnalysis(query) {
+    this.steps = [
+      { number: 1, text: `Анализ запроса: "${query.substring(0, 50)}${query.length > 50 ? '...' : ''}"` },
+      { number: 2, text: 'Определение намерения пользователя...' },
+      { number: 3, text: 'Извлечение ключевых сущностей...' },
+      { number: 4, text: 'Поиск в базе знаний...' },
+      { number: 5, text: 'Формирование ответа...' }
+    ];
+    return this.steps;
+  }
+
+  render() {
+    let html = '<div class="thinking-block">';
+    html += '<div class="thinking-header">';
+    html += '<span class="thinking-icon">🌀</span>';
+    html += '<span class="thinking-title">Процесс мышления</span>';
+    html += '</div>';
+    html += '<div class="thinking-content">';
+    
+    this.steps.forEach(step => {
+      html += '<div class="thinking-step">';
+      html += `<span class="step-number">${step.number}</span>`;
+      html += `<span class="step-text">${step.text}</span>`;
+      html += '</div>';
+    });
+    
+    html += '</div></div>';
+    return html;
+  }
+}
+
+// ============================================
+// MAIN APPLICATION CLASS
+// ============================================
+class OnyXApp {
+  constructor() {
+    this.chats = [];
+    this.currentChatId = null;
+    this.settings = this.loadSettings();
+    this.intentAnalyzer = new IntentAnalyzer();
+    this.searchEngine = new SearchEngine();
+    this.thinkingVisualizer = new ThinkingVisualizer();
+    this.isProcessing = false;
+
+    this.init();
+  }
+
+  init() {
+    this.loadChats();
+    this.bindEvents();
+    this.updateStats();
+    this.renderChatList();
+    
+    // Auto-focus input
+    setTimeout(() => {
+      document.getElementById('userInput').focus();
+    }, 500);
+  }
+
+  loadSettings() {
+    const saved = localStorage.getItem('onyx_settings');
+    return saved ? JSON.parse(saved) : {
+      userName: 'Пользователь',
+      theme: 'dark',
+      language: 'ru',
+      showThinking: true,
+      autoSearch: true,
+      soundEnabled: false
+    };
+  }
+
+  saveSettings() {
+    localStorage.setItem('onyx_settings', JSON.stringify(this.settings));
+  }
+
+  loadChats() {
+    const saved = localStorage.getItem('onyx_chats');
+    this.chats = saved ? JSON.parse(saved) : [];
+    
+    if (this.chats.length > 0) {
+      this.currentChatId = this.chats[0].id;
+    } else {
+      this.createChat();
+    }
+  }
+
+  saveChats() {
+    localStorage.setItem('onyx_chats', JSON.stringify(this.chats));
+  }
+
+  createChat() {
+    const chat = {
+      id: Date.now(),
+      title: 'Новый чат',
+      messages: [],
+      createdAt: new Date().toISOString()
+    };
+    
+    this.chats.unshift(chat);
+    this.currentChatId = chat.id;
+    this.saveChats();
+    this.renderChatList();
+    this.updateStats();
+    
+    return chat;
+  }
+
+  getCurrentChat() {
+    return this.chats.find(c => c.id === this.currentChatId);
+  }
+
+  bindEvents() {
+    // Sidebar toggle
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('overlay').classList.add('show');
+    });
+
+    document.getElementById('closeSidebar').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+    });
+
+    document.getElementById('overlay').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+    });
+
+    // New chat
+    document.getElementById('newChatBtn').addEventListener('click', () => {
+      this.createChat();
+      this.clearMessages();
+      this.showWelcomeScreen();
+      
+      if (window.innerWidth < 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+      }
+    });
+
+    // Send message
+    document.getElementById('sendBtn').addEventListener('click', () => this.sendMessage());
+    
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    });
+
+    // Auto-resize textarea
+    document.getElementById('userInput').addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+    });
+
+    // Suggestions
+    document.querySelectorAll('.suggestion-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const suggestion = card.dataset.suggestion;
+        document.getElementById('userInput').value = suggestion;
+        this.sendMessage();
+      });
+    });
+
+    // Hint chips
+    document.querySelectorAll('.hint-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const hint = chip.dataset.hint;
+        document.getElementById('userInput').value = hint;
+        document.getElementById('userInput').focus();
+      });
+    });
+
+    // Clear chat
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      const chat = this.getCurrentChat();
+      if (chat && confirm('Очистить текущий чат?')) {
+        chat.messages = [];
+        chat.title = 'Новый чат';
+        this.saveChats();
+        this.clearMessages();
+        this.showWelcomeScreen();
+      }
+    });
+
+    // Export
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      document.getElementById('exportModal').classList.add('show');
+    });
+
+    document.getElementById('closeExport').addEventListener('click', () => {
+      document.getElementById('exportModal').classList.remove('show');
+    });
+
+    document.getElementById('cancelExport').addEventListener('click', () => {
+      document.getElementById('exportModal').classList.remove('show');
+    });
+
+    document.getElementById('confirmExport').addEventListener('click', () => this.exportChat());
+
+    // Settings
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+      this.loadSettingsToForm();
+      document.getElementById('settingsModal').classList.add('show');
+    });
+
+    document.getElementById('closeSettings').addEventListener('click', () => {
+      document.getElementById('settingsModal').classList.remove('show');
+    });
+
+    document.getElementById('saveSettings').addEventListener('click', () => this.saveSettingsFromForm());
+    
+    document.getElementById('resetSettings').addEventListener('click', () => {
+      this.settings = {
+        userName: 'Пользователь',
+        theme: 'dark',
+        language: 'ru',
+        showThinking: true,
+        autoSearch: true,
+        soundEnabled: false
+      };
+      this.loadSettingsToForm();
+    });
+
+    // Toggle switches
+    document.querySelectorAll('.toggle-switch').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('active');
+      });
+    });
+
+    // Modal backdrop close
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        e.target.closest('.modal').classList.remove('show');
+      });
+    });
+  }
+
+  sendMessage() {
+    const input = document.getElementById('userInput');
+    const message = input.value.trim();
+
+    if (!message || this.isProcessing) return;
+
+    // Hide welcome screen
+    document.getElementById('welcomeScreen').classList.add('hidden');
+
+    // Add user message
+    this.addMessage('user', message);
+    input.value = '';
+    input.style.height = 'auto';
+
+    // Update chat title if first message
+    const chat = this.getCurrentChat();
+    if (chat.messages.length === 1) {
+      chat.title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+      this.saveChats();
+      this.renderChatList();
+    }
+
+    // Process response
+    this.processResponse(message);
+  }
+
+  async processResponse(userMessage) {
+    this.isProcessing = true;
+    this.showTypingIndicator();
+
+    // Simulate thinking delay
+    await this.sleep(800 + Math.random() * 700);
+
+    // Analyze intent
+    const analysis = this.intentAnalyzer.analyze(userMessage);
+
+    // Show thinking process if enabled
+    if (this.settings.showThinking) {
+      this.thinkingVisualizer.startAnalysis(userMessage);
+      // Update thinking steps with actual analysis
+      this.thinkingVisualizer.steps[1].text = `Намерение: ${analysis.intent} (уверенность: ${(analysis.confidence * 100).toFixed(0)}%)`;
+      this.thinkingVisualizer.steps[2].text = `Сущности: ${analysis.entities.length > 0 ? analysis.entities.map(e => e.value).join(', ') : 'не найдено'}`;
+    }
+
+    // Generate response
+    let response = '';
+    const context = { query: userMessage, entities: analysis.entities, analysis };
+
+    switch (analysis.intent) {
+      case 'greeting':
+        response = this.intentAnalyzer.handleGreeting(context);
+        break;
+      case 'farewell':
+        response = this.intentAnalyzer.handleFarewell(context);
+        break;
+      case 'productRecommendation':
+        response = this.intentAnalyzer.handleProductRecommendation(context);
+        break;
+      case 'coding':
+        response = this.intentAnalyzer.handleCoding(context);
+        break;
+      case 'math':
+        response = this.intentAnalyzer.handleMath(context);
+        break;
+      case 'science':
+        response = this.intentAnalyzer.handleScience(context);
+        break;
+      case 'advice':
+        response = this.intentAnalyzer.handleAdvice(context);
+        break;
+      case 'movie':
+        response = this.intentAnalyzer.handleMovie(context);
+        break;
+      case 'book':
+        response = this.intentAnalyzer.handleBook(context);
+        break;
+      case 'capability':
+        response = this.intentAnalyzer.handleCapability(context);
+        break;
+      case 'thanks':
+        response = this.intentAnalyzer.handleThanks(context);
+        break;
+      default:
+        // Unknown intent - offer web search
+        if (this.settings.autoSearch) {
+          const searchResults = await this.searchEngine.searchWeb(userMessage);
+          response = `🔍 **Поиск в интернете**\n\n`;
+          response += `По вашему запросу "${userMessage}" я рекомендую проверить:\n\n`;
+          response += `• [DuckDuckGo](${searchResults.urls.duckduckgo})\n`;
+          response += `• [Google](${searchResults.urls.google})\n`;
+          response += `• [Wikipedia](${searchResults.urls.wikipedia})\n\n`;
+          response += `*Хотите, чтобы я поискал информацию по конкретному аспекту этого вопроса?*`;
+        } else {
+          response = "Интересный вопрос! 🤔\n\n";
+          response += "Я могу помочь с:\n";
+          response += "• Рекомендациями товаров (телефоны, ноутбуки)\n";
+          response += "• Написанием кода (Python, JavaScript, HTML/CSS)\n";
+          response += "• Ответами на научные вопросы\n";
+          response += "• Советами по различным темам\n";
+          response += "• Математическими вычислениями\n\n";
+          response += "Или включите поиск в интернете в настройках!";
+        }
+    }
+
+    // Remove typing indicator
+    this.removeTypingIndicator();
+
+    // Add thinking block if enabled
+    if (this.settings.showThinking && analysis.intent !== 'unknown') {
+      const thinkingHtml = this.thinkingVisualizer.render();
+      this.addMessage('assistant', thinkingHtml, true);
+      await this.sleep(300);
+    }
+
+    // Add assistant response
+    this.addMessage('assistant', response);
+
+    this.isProcessing = false;
+    this.updateStats();
+  }
+
+  addMessage(role, content, isHtml = false) {
+    const chat = this.getCurrentChat();
+    if (!chat) return;
+
+    const message = {
+      id: Date.now(),
+      role,
+      content,
+      isHtml,
+      timestamp: new Date().toISOString()
+    };
+
+    chat.messages.push(message);
+    this.saveChats();
+
+    this.renderMessage(message);
+    this.scrollToBottom();
+  }
+
+  renderMessage(message) {
+    const container = document.getElementById('messagesContainer');
+    const time = new Date(message.timestamp).toLocaleTimeString('ru-RU', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+
+    const div = document.createElement('div');
+    div.className = `message ${message.role}`;
+    
+    const avatar = message.role === 'assistant' ? 'O' : '👤';
+    
+    let bodyContent = message.content;
+    if (!message.isHtml) {
+      // Convert markdown-like syntax to HTML
+      bodyContent = this.formatMessage(message.content);
+    }
+
+    div.innerHTML = `
+      <div class="message-avatar">${avatar}</div>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="message-name">${message.role === 'assistant' ? 'OnyX' : 'Вы'}</span>
+          <span class="message-time">${time}</span>
+        </div>
+        <div class="message-body">${bodyContent}</div>
+      </div>
+    `;
+
+    container.appendChild(div);
+  }
+
+  formatMessage(text) {
+    // Bold
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Italic
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Code blocks
+    text = text.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+      return `<div class="code-block">
+        <div class="code-header">
+          <span class="code-language">${lang || 'code'}</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="navigator.clipboard.writeText(this.parentElement.parentElement.nextElementSibling.textContent)">📋 Копировать</button>
+          </div>
+        </div>
+        <div class="code-content">${this.escapeHtml(code.trim())}</div>
+      </div>`;
+    });
+    
+    // Inline code
+    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // Line breaks
+    text = text.replace(/\n/g, '<br>');
+    
+    // Links
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: #00ff88;">$1</a>');
+    
+    // Emoji lists
+    text = text.replace(/^([🏆💡✅❌⭐💰📋🔬🎬📚💼🏥⚡🤝📖🌀🔍])\s+/gm, '<span style="margin-right: 8px;">$1</span>');
+
+    return text;
+  }
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  showTypingIndicator() {
+    const container = document.getElementById('messagesContainer');
+    const div = document.createElement('div');
+    div.className = 'message assistant';
+    div.id = 'typingIndicator';
+    div.innerHTML = `
+      <div class="message-avatar">O</div>
+      <div class="message-content">
+        <div class="message-body">
+          <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+    this.scrollToBottom();
+  }
+
+  removeTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+      indicator.remove();
+    }
+  }
+
+  clearMessages() {
+    document.getElementById('messagesContainer').innerHTML = '';
+  }
+
+  showWelcomeScreen() {
+    document.getElementById('welcomeScreen').classList.remove('hidden');
+  }
+
+  scrollToBottom() {
+    const container = document.getElementById('chatContainer');
+    container.scrollTop = container.scrollHeight;
+  }
+
+  renderChatList() {
+    const list = document.getElementById('chatList');
+    list.innerHTML = '';
+
+    this.chats.forEach(chat => {
+      const div = document.createElement('div');
+      div.className = `chat-item ${chat.id === this.currentChatId ? 'active' : ''}`;
+      div.innerHTML = `
+        <span class="title">${this.escapeHtml(chat.title)}</span>
+        <button class="del" title="Удалить">🗑️</button>
+      `;
+
+      div.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('del')) {
+          this.switchChat(chat.id);
+        }
+      });
+
+      div.querySelector('.del').addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.deleteChat(chat.id);
+      });
+
+      list.appendChild(div);
+    });
+  }
+
+  switchChat(chatId) {
+    this.currentChatId = chatId;
+    this.saveChats();
+    this.renderChatList();
+    
+    // Render messages
+    this.clearMessages();
+    const chat = this.getCurrentChat();
+    
+    if (chat.messages.length === 0) {
+      this.showWelcomeScreen();
+    } else {
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      chat.messages.forEach(msg => this.renderMessage(msg));
+    }
+    
+    this.scrollToBottom();
+  }
+
+  deleteChat(chatId) {
+    if (confirm('Удалить этот чат?')) {
+      this.chats = this.chats.filter(c => c.id !== chatId);
+      
+      if (this.chats.length === 0) {
+        this.createChat();
+      } else if (this.currentChatId === chatId) {
+        this.currentChatId = this.chats[0].id;
+      }
+      
+      this.saveChats();
+      this.renderChatList();
+      this.switchChat(this.currentChatId);
+      this.updateStats();
+    }
+  }
+
+  updateStats() {
+    document.getElementById('totalChats').textContent = this.chats.length;
+    
+    const totalMessages = this.chats.reduce((sum, chat) => sum + chat.messages.length, 0);
+    document.getElementById('totalMessages').textContent = totalMessages;
+  }
+
+  loadSettingsToForm() {
+    document.getElementById('userNameInput').value = this.settings.userName;
+    document.getElementById('themeSelect').value = this.settings.theme;
+    document.getElementById('languageSelect').value = this.settings.language;
+    
+    document.getElementById('thinkingToggle').classList.toggle('active', this.settings.showThinking);
+    document.getElementById('searchToggle').classList.toggle('active', this.settings.autoSearch);
+    document.getElementById('soundToggle').classList.toggle('active', this.settings.soundEnabled);
+  }
+
+  saveSettingsFromForm() {
+    this.settings.userName = document.getElementById('userNameInput').value || 'Пользователь';
+    this.settings.theme = document.getElementById('themeSelect').value;
+    this.settings.language = document.getElementById('languageSelect').value;
+    this.settings.showThinking = document.getElementById('thinkingToggle').classList.contains('active');
+    this.settings.autoSearch = document.getElementById('searchToggle').classList.contains('active');
+    this.settings.soundEnabled = document.getElementById('soundToggle').classList.contains('active');
+    
+    this.saveSettings();
+    document.getElementById('settingsModal').classList.remove('show');
+    
+    // Apply theme
+    this.applyTheme();
+  }
+
+  applyTheme() {
+    // Theme implementation would go here
+    console.log('Theme applied:', this.settings.theme);
+  }
+
+  exportChat() {
+    const chat = this.getCurrentChat();
+    if (!chat) return;
+
+    const format = document.getElementById('exportFormat').value;
+    const filename = document.getElementById('exportFilename').value || 'chat_export';
+
+    let content = '';
+    let mimeType = 'text/plain';
+    let extension = 'txt';
+
+    switch (format) {
+      case 'txt':
+        content = chat.messages.map(m => 
+          `[${new Date(m.timestamp).toLocaleString()}] ${m.role === 'assistant' ? 'OnyX' : 'Вы'}: ${m.content}`
+        ).join('\n\n');
+        break;
+      
+      case 'json':
+        content = JSON.stringify(chat, null, 2);
+        mimeType = 'application/json';
+        extension = 'json';
+        break;
+      
+      case 'markdown':
+        content = chat.messages.map(m => 
+          `### ${m.role === 'assistant' ? 'OnyX' : 'Вы'}\n\n${m.content}\n\n`
+        ).join('---\n\n');
+        extension = 'md';
+        break;
+      
+      case 'html':
+        content = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Чат OnyX</title></head><body>`;
+        content += chat.messages.map(m => 
+          `<div style="margin: 20px 0;"><strong>${m.role === 'assistant' ? 'OnyX' : 'Вы'}</strong> <small>(${new Date(m.timestamp).toLocaleString()})</small><p>${m.content}</p></div>`
+        ).join('');
+        content += '</body></html>';
+        extension = 'html';
+        mimeType = 'text/html';
+        break;
+    }
+
+    // Download file
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    document.getElementById('exportModal').classList.remove('show');
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// ============================================
+// INITIALIZE APPLICATION
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  window.onyxApp = new OnyXApp();
+});
+</script>
+</body>
+</html>
